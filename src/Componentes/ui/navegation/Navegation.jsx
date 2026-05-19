@@ -4,7 +4,7 @@ import Searcher from '../shared/Searcher';
 
 const Navegation = () => {
   return (
-    <nav className="md:w-full w-[90%]  m-auto py-2 md:px-4 flex items-center justify-between flex-col md:flex-row">
+    <nav className="md:w-full w-[90%] py-2 md:px-4 flex items-center justify-between flex-col md:flex-row">
       <div className="md:w-[30%] w-62.5 flex items-center justify-center">
         <img src={logo} alt="logo" className='w-[50%] aspect-11/5  object-cover pointer-events-none user-select-none' />
       </div>

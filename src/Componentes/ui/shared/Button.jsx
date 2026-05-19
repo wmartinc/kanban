@@ -6,16 +6,17 @@ const Button = ({
   ...props
 }) => {
   const baseClasses =
-    `inline-flex items-center hover:cursor-pointer w-[200px]
-    justify-center rounded-md p-2 text-sm font-semibold transition-colors 
+    `inline-flex items-center hover:cursor-pointer 
+    justify-center rounded-md text-sm  transition-colors 
     duration-200 hover:shadow-md focus:outline-none
-    hover:border border-white/25
+    hover:border 
     active:scale-[0.98]`;
 
   const variants = {
-    primary: 'bg-sky-500 text-white hover:bg-sky-400',
-    secondary: 'bg-slate-700 text-white hover:bg-slate-600',
-    ghost: 'bg-transparent text-white hover:bg-white/10',
+    primary: 'bg-sky-500 text-white hover:bg-sky-400 w-[200px] border-white/25 p-2 font-semibold',
+    secondary: 'bg-white text-black hover:bg-transparent hover:text-white w-[200px] border-white/25 p-2 font-semibold',
+    ghost: 'bg-transparent text-white hover:bg-white/10 w-[200px] border-white/25 p-2 font-semibold',
+    add: "bg-white/10 text-white p-1 border-2 border-dotted hover:border-2 hover:border-white"
   };
 
   const classes = `${baseClasses} ${variants[variant] ?? variants.primary} ${className}`.trim();
