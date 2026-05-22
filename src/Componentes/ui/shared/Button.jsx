@@ -16,7 +16,7 @@ const Button = ({
     primary: 'bg-sky-500 text-white hover:bg-sky-400 w-[200px] border-white/25 p-2 font-semibold',
     secondary: 'bg-white text-black hover:bg-transparent hover:text-white w-[200px] border-white/25 p-2 font-semibold',
     ghost: 'bg-transparent text-white hover:bg-white/10 w-[200px] border-white/25 p-2 font-semibold',
-    add: "bg-white/10 text-white p-1 border-2 border-dotted hover:border-2 hover:border-white"
+    add: "bg-white/10 text-white border-white/75 p-1 border-2 border-dotted hover:border-2 hover:border-white"
   };
 
   const classes = `${baseClasses} ${variants[variant] ?? variants.primary} ${className}`.trim();
