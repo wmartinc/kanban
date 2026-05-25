@@ -5,9 +5,19 @@ import TaskViewer from "./TaskViewer";
 import { move } from "@dnd-kit/helpers";
 import { useState } from "react";
 import AlertDialog from "../ui/shared/AlertDialog";
+import { isSortable } from "@dnd-kit/react/sortable";
+
+
+
+/**
+ * When there are changes we will compare the previous information with the new one
+ * if there are no changes or if columns are the same we will no do any changes on the database when 
+ * we implement backend. 
+ */
 
 const Home = () => {
-  const [changesMade, setChangesMade] = useState(true);
+  const [columnOrigin, setColumnOrigin] = useState(""); // Store the origin of the column being dragged.
+  const [changesMade, setChangesMade] = useState(false);
   const [tarjetas, setTarjetas] = useState({
     "PENDING": [
       {
@@ -72,19 +82,18 @@ const Home = () => {
     ]
   })
 
-  const handleEndingDrag = (event) => {
-    console.log("el nuevo objeto es: ", tarjetas)
-  }
-
   return (
     <main className="w-[95%] h-dvh flex flex-col m-auto relative">
       <Navegation />
       <DragDropProvider
         onDragOver={(event) => {
-          const { operation } = event;
-          if (operation.canceled) return;
+          if(event.operation.canceled) return;
+          setTarjetas((prev) => move(tarjetas, event))
+        }}
 
-          setTarjetas((tarjetas) => move(tarjetas, event))
+        onDragStart={(event) => {
+          const { source } = event.operation;
+          setColumnOrigin(source.group);
         }}
       >
         <section className="w-full overflow-y-scroll overflow-x-hidden md:bg-transparent md:flex-row flex-col flex-1 my-4 mx-auto flex gap-5">
