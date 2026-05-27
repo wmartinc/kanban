@@ -26,15 +26,15 @@ const TaskViewer = ({ children, column, index }) => {
 
   // Function is gonna define sortableElement as the reference.
   return (
-    <section className={`flex-1 border duration-500 rounded-xl flex flex-col items-center bg-black/10 p-2`}
+    <section className={`flex-1 shadow-[2px_2px_10px_rgba(0,0,0,0.5)] border border-neutral-400/10 duration-500 rounded-xl flex flex-col items-center bg-black/10 p-2`}
       onMouseEnter={mouseEnter}
       onMouseLeave={mouseLeave}
       data-id={column}
     >
       {mouseOver && <GripHorizontal className="absolute stroke-white right-6 top-4 cursor-pointer" />}
       <h1 className="text-center text-2xl text-white font-bold p-2">{column}</h1>
-      <Button variant="add" className="w-[40%] font-mono">Add task</Button>
-      <section ref={ref} className={`flex flex-col border w-full gap-3 p-5 h-full rounded-xl overflow-y-scroll overflow-x-hidden`}>
+      <Button variant="add" className="w-[40%] font-mono">Add Task</Button>
+      <section ref={ref} className={`flex flex-col w-full gap-3 p-5 h-full rounded-xl overflow-y-scroll overflow-x-hidden`}>
           {children}
       </section>
     </section>
