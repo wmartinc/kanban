@@ -1,10 +1,12 @@
 import { Plus } from "lucide-react";
+import { ioClient } from "../../../../utilities/socket";
 
 const Button = ({
   type = 'button',
   children,
   variant = 'primary',
   className = '',
+  event,
   ...props
 }) => {
   const baseClasses =
@@ -24,7 +26,7 @@ const Button = ({
   const classes = `${baseClasses} ${variants[variant] ?? variants.primary} ${className}`.trim();
 
   return (
-    <button type={type} className={classes} {...props}>
+    <button type={type} className={classes} {...props} onClick={event}  >
       {variant === "add" ? <Plus className="size-4" /> : ""}
       {children}
     </button>
