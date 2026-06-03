@@ -96,7 +96,7 @@ const Home = () => {
           setColumnOrigin(source.group);
         }}
       >
-        <section className="w-full overflow-y-scroll overflow-x-hidden md:bg-transparent md:flex-row flex-col flex-1 my-4 mx-auto flex gap-5">
+        <section className="w-full overflow-y-scroll overflow-x-hidden md:bg-transparent md:flex-wrap lg:flex-row flex-col flex-1 my-4 mx-auto flex gap-5">
           {
             Object.entries(tarjetas)?.map(([column, data], index) => (
               <TaskViewer key={column} column={column} index={index}>

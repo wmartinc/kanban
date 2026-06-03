@@ -3,17 +3,19 @@ import { useModals } from "@Store/store";
 import AddTaskModal from "./AddTaskModal";
 import { X } from "lucide-react";
 import { useEffect } from "react";
+import CreateBoardModal from "./CreateBoardModal";
+import ShowBoards from "./ShowBoards";
 
 
 const ModalContainer = ({shown}) => {
   const modalAddTaskOpen = useModals((state) => state.modals.addTask)
+  const modalShowBoards = useModals((state) => state.modals.showBoards)
   const updateModalStatus = useModals((state) => state.updateModalStatus)
-  
+  const modalNewBoard = useModals((state) => state.modals.addBoard)  
+
   const hideModalContainer = () => {
     updateModalStatus(false)
   }
-
-  useEffect(() =>{console.log('ModalContainer updated')} ,[])
 
   return (
     <Dialog.Root open={ shown } >
@@ -22,6 +24,8 @@ const ModalContainer = ({shown}) => {
         <Dialog.Content >
         <X className="stroke-white absolute top-5 right-5 cursor-pointer" onClick={hideModalContainer} />
           {modalAddTaskOpen && <AddTaskModal />}
+          {modalNewBoard && <CreateBoardModal /> }
+          {modalShowBoards && <ShowBoards /> }
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
