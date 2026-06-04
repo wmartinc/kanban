@@ -27,22 +27,26 @@ const Navegation = () => {
     fetchBoards();
   }
 
+  const showFavoritesModal = () => {
+    updateModalStatus(true, "favorites")
+  }
+
   return (
     <nav className="md:w-full w-[90%] py-2 md:px-4 flex items-center justify-between flex-col md:flex-row">
       <div className="md:w-[30%] w-62.5 flex items-center justify-center">
         <img src={logo} alt="logo" className='w-[50%] aspect-11/5  object-cover pointer-events-none user-select-none' />
       </div>
 
-      <NavegationOptionsDesktop setModalBoard={setModalBoard} getTotalBoards={getTotalBoards} />
+      <NavegationOptionsDesktop setModalBoard={setModalBoard} getTotalBoards={getTotalBoards} showFavoritesModal={showFavoritesModal} />
       <NavegationOptionsMobile setModalBoard={setModalBoard} />
     </nav>
   )
 }
 
-const NavegationOptionsDesktop = ({ setModalBoard, getTotalBoards }) => {
+const NavegationOptionsDesktop = ({ setModalBoard, getTotalBoards, showFavoritesModal }) => {
   return (
     <div className='w-[70%] h-dv hidden md:flex items-center gap-3'>
-      <Button variant="ghost">Favorites</Button>
+      <Button variant="ghost" event={showFavoritesModal}>Favorites</Button>
       <Button variant="ghost" event={getTotalBoards}>Boards</Button>
       <Searcher />
       <Button variant="ghost" event={setModalBoard}>Create Board</Button>

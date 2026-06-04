@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import { useEffect } from "react";
 import CreateBoardModal from "./CreateBoardModal";
 import ShowBoards from "./ShowBoards";
+import FavoritesModal from "./FavoritesModal";
 
 
 const ModalContainer = ({shown}) => {
@@ -12,6 +13,7 @@ const ModalContainer = ({shown}) => {
   const modalShowBoards = useModals((state) => state.modals.showBoards)
   const updateModalStatus = useModals((state) => state.updateModalStatus)
   const modalNewBoard = useModals((state) => state.modals.addBoard)  
+  const favorites = useModals(state => state.modals.favorites)
 
   const hideModalContainer = () => {
     updateModalStatus(false)
@@ -26,6 +28,7 @@ const ModalContainer = ({shown}) => {
           {modalAddTaskOpen && <AddTaskModal />}
           {modalNewBoard && <CreateBoardModal /> }
           {modalShowBoards && <ShowBoards /> }
+          {favorites && <FavoritesModal />}
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
