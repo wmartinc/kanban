@@ -1,4 +1,4 @@
-
+const VITE_API = import.meta.env.VITE_BOARDS_ENDPOINT 
 
 const getBoards = async () => {
   try {
@@ -30,9 +30,23 @@ const createNewBoard = async (VITE_API, boardInformation) => {
     const respCreation = await responseApi.json();
     return respCreation.confirmation;
   } catch (error) {
-    console.log('Ocurrio un error: ', error.message)
+    console.log('Error during the process:  ', error.message)
     return false
   }
 }
 
-export { getBoards, createNewBoard }
+const getFavoritesBoards = async () => {
+  try {
+    const responseApi = await fetch(`${VITE_API}/favorites`, {
+      method: "GET",
+      credentials: "include"
+    })
+    const dataApi = await responseApi.json();
+    if(!dataApi.confirmation) return false
+    return dataApi.data;
+  } catch (error) {
+    console.log('Error during the process:  ', error.message)
+  }
+}
+
+export { getBoards, createNewBoard, getFavoritesBoards }
