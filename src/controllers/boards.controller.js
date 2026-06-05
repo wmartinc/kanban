@@ -49,4 +49,18 @@ const getFavoritesBoards = async () => {
   }
 }
 
-export { getBoards, createNewBoard, getFavoritesBoards }
+const getColumns = async (boardName) => {
+  try {
+    const responseApi = await fetch(`${VITE_API}/columns/${boardName}`, {
+      method: "GET",
+      credentials: "include"  
+    })
+    const dataApi = await responseApi.json();
+    if(!dataApi.confirmation) return false
+    return dataApi.columns;
+  } catch (error) {
+    console.log('Error during the process:  ', error.message)
+  }
+}
+
+export { getBoards, createNewBoard, getFavoritesBoards, getColumns }
