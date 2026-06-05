@@ -2,7 +2,7 @@ const BoardCard = ({ id, title, description, selectId }) => {
 
   const selectBoard = () => {
     if(selectId) {
-      selectId(id)
+      selectId({id, title, description})
     }
   }
   
