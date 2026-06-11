@@ -43,7 +43,7 @@ const getFavoritesBoards = async () => {
     })
     const dataApi = await responseApi.json();
     if(!dataApi.confirmation) return false
-    return dataApi.data;
+    return {boardInfo: dataApi.boardInfo, columns: dataApi.columns};
   } catch (error) {
     console.log('Error during the process:  ', error.message)
   }
@@ -57,10 +57,11 @@ const getColumns = async (boardName) => {
     })
     const dataApi = await responseApi.json();
     if(!dataApi.confirmation) return false
-    return dataApi.columns;
+    return dataApi.boardInformation
   } catch (error) {
     console.log('Error during the process:  ', error.message)
   }
 }
+
 
 export { getBoards, createNewBoard, getFavoritesBoards, getColumns }

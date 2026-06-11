@@ -5,23 +5,30 @@ import Spinner from "../ui/shared/Spinner"
 import { Trash } from "lucide-react"
 import { SquarePen } from "lucide-react"
 import { ChevronRight } from "lucide-react"
+import { useModals } from "../../store/store"
+import { io } from "socket.io-client"
 
+const socket = new io("http://localhost:3000");
 
 const actionClass = "cursor-pointer rounded-md text-white/50 transition duration-300"
 
 const ShowBoards = ({ data }) => {
   const boards = useBoards(state => state.boards)
   const [selectedBoard, setSelectedBoard] = useState(null)
+  // STORE.
+  const updateModalStatus = useModals((state) => state.updateModalStatus)
+  const setBoardSelected = useBoards(state => state.setBoardSelected)
 
   const handleSelectBoard = (boardId) => {
     setSelectedBoard(boardId)
   }
 
-  const deleteBoard = () => {}
-  const updateBoard = () => {}
+  const deleteBoard = () => { }
+  const updateBoard = () => { }
 
   const goToBoard = () => {
-    
+    setBoardSelected(selectedBoard.title)
+    updateModalStatus(false)
   }
 
   return (
@@ -41,10 +48,9 @@ const ShowBoards = ({ data }) => {
         <div className="flex mt-2 flex-wrap p-2 gap-6 ml-auto">
           <SquarePen className={`${actionClass} hover:text-white`} />
           <Trash className={`${actionClass} hover:text-red-500/50`} />
-          <ChevronRight className={`${actionClass} hover:text-white`} />
+          <ChevronRight className={`${actionClass} hover:text-white`} onClick={goToBoard} />
         </div>
       }
-
     </div>
   )
 }

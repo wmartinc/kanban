@@ -8,15 +8,17 @@ const useGetColumns = () => {
 
   const fetchColumns = async(boardName) => {
     setLoading(true);
-    setResponse(null);
     try {
+      console.log('cargando...')
       const respApi = await getColumns(boardName);
-      console.log( 'Columns fetched successfully:', respApi);
-      setLoading(false)
       setResponse(respApi);
+
+      console.log('fin de la carga..', )
     } catch (error) {
       setError(error.message);
       console.log('Error getting columns:', error.message); 
+    } finally {
+      setLoading(false)
     }
   }
 

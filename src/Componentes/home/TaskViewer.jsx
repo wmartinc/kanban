@@ -6,16 +6,20 @@ import { useState } from "react";
 import { useSortable } from "@dnd-kit/react/sortable";
 import { useRef } from "react";
 import { CollisionPriority } from "@dnd-kit/abstract"
+import { useEffect } from "react";
+import useGetTasks from "../../hooks/useGetTasks";
 
-const TaskViewer = ({ children, column, index }) => {
+const TaskViewer = ({ children, column, index, id, tasks}) => {
+  const { fetchTasks, loading, response } = useGetTasks();
   const [mouseOver, setMouseOver] = useState(false)
-  const { ref, isDropTarget } = useDroppable({
+  const { ref } = useDroppable({
     id: column,
     type: "column",
     accept: "item",
     collisionPriority: CollisionPriority.Low
   })
-  
+
+  //! Para evitar hacer muchas peticiones de las tareas vamos a utilizar web sockets
   const mouseEnter = () => {
     setMouseOver(true)
   }
@@ -26,7 +30,7 @@ const TaskViewer = ({ children, column, index }) => {
 
   // Function is gonna define sortableElement as the reference.
   return (
-    <section className={`flex-1 shadow-[2px_2px_10px_rgba(0,0,0,0.5)] border border-neutral-400/10 duration-500 rounded-xl flex flex-col items-center bg-black/10 p-2`}
+    <section className={`flex-1 shadow-[2px_2px_10px_rgba(0,0,0,0.5)] relative border border-neutral-400/10 duration-500 rounded-xl flex flex-col items-center bg-black/10 p-2`}
       onMouseEnter={mouseEnter}
       onMouseLeave={mouseLeave}
       data-id={column}
@@ -35,7 +39,9 @@ const TaskViewer = ({ children, column, index }) => {
       <h1 className="text-center text-2xl text-white font-bold p-2">{column}</h1>
       <Button variant="add" className="w-[40%] font-mono">Add Task</Button>
       <section ref={ref} className={`flex flex-col w-full gap-3 p-5 h-full rounded-xl overflow-y-scroll overflow-x-hidden`}>
-          {children}
+        {tasks?.map((data, ind) => (
+          <TaskCard key={data.id} information={data} index={ind} column={column} />
+        ))}
       </section>
     </section>
   )
