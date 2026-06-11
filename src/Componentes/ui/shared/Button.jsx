@@ -13,8 +13,7 @@ const Button = ({
     `inline-flex items-center hover:cursor-pointer 
     justify-center rounded-md text-sm  transition-colors 
     duration-200 hover:shadow-md focus:outline-none
-    hover:border 
-    active:scale-[0.98]`;
+    hover:border `;
 
   const variants = {
     primary: 'bg-sky-500 text-white hover:bg-sky-400 w-[200px] border-white/25 p-2 font-semibold',
