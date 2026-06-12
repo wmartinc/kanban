@@ -13,6 +13,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Login/>} />
         <Route path="/signup" element={<Signup/>} />
+        <Route path="/home">
+          <Route index element={<Home/>} />
+        </Route>
       </Routes>
       
       {/*Here we will have the modals, it will work to display them..*/}

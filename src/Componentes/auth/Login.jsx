@@ -3,9 +3,12 @@ import Button from "../ui/shared/Button";
 import Input from "../ui/shared/Input";
 import { validateEmail } from "./verificationAuth";
 import { useState } from "react";
+import { useEffect } from "react";
+import useAuthorization from "../../hooks/auth/useAuthorization";
 
 const Login = () => {
   const navigate = useNavigate()
+  const {loading, response, sendRequest} = useAuthorization();
   const [isEmailValid, setIsEmailValid] = useState(true)
   const [fillFields, setFillFields] = useState(false)
   const [userCredentials, setUserCredentials] = useState({
@@ -16,6 +19,15 @@ const Login = () => {
   const signup = () => {
     return navigate('/signup', { replace: true })
   }
+
+  useEffect(() => {
+    if(loading && !response) {
+      console.log('cargando...')
+      return
+    } else if (!loading && response ) {
+      console.log('hola mundo')
+    }
+  }, [loading, response])
 
   const updateCredentials = (ev) => {
     if(!isEmailValid) setIsEmailValid(true)
@@ -30,14 +42,21 @@ const Login = () => {
     })
   }
 
+  if(!loading && response) {
+    navigate('/home', {replace:true})                 
+  }
+
   const submitInformation = () => {
     if(userCredentials.email.trim() === "" || userCredentials.password.trim() === "") {
       setFillFields(true)
-      return 
     }
     // verificamos si el email es correcto...
     const isEmailValid = validateEmail(userCredentials.email)
     setIsEmailValid(isEmailValid)
+    if(!isEmailValid) return;
+
+    // we will request information only if the email is correct.
+    sendRequest(userCredentials.email, userCredentials.password)
   }
 
   return (
