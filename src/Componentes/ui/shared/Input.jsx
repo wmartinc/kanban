@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Input = ({ children, nameField, changeEvent }) => {
+const Input = ({ children, nameField, changeEvent, type="text" }) => {
   const [isFieldFocus, setFieldFocus] = useState(false)
 
   const handleBlur = (ev) => {
@@ -18,7 +18,7 @@ const Input = ({ children, nameField, changeEvent }) => {
   `
   return (
     <div className={wrapperInputStyles}>
-      <input name={nameField} className="text-gray-200 outline-0 p-2 md:text-[14px]" onFocus={handleFocus} onBlur={handleBlur} onChange={changeEvent} />
+      <input name={nameField} type={type} className="text-gray-200 outline-0 p-2 md:text-[14px]" onFocus={handleFocus} onBlur={handleBlur} onChange={changeEvent} />
       <label className={`ml-2 transition-[top] pointer-events-none bg-neutral-950 text-sm md:text-[14px] absolute 
         ${isFieldFocus ? 'top-0 translate-y-[-50%] text-gray-400' : 'top-1/2 translate-y-[-50%] text-gray-100'}`}>{children}</label>
     </div>

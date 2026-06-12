@@ -3,6 +3,7 @@ import Home from "./Componentes/home/Home";
 import ModalContainer from "./Componentes/modals/ModalContainer";
 import { useModals } from "@Store/store";
 import Login from "./Componentes/auth/Login";
+import Signup from "./Componentes/auth/Signup";
 
 function App() {
   const modalContainer = useModals((state) => state.modals.modalContainer)
@@ -11,6 +12,7 @@ function App() {
     <div className='bg-black/95 h-dvh'>
       <Routes>
         <Route path="/" element={<Login/>} />
+        <Route path="/signup" element={<Signup/>} />
       </Routes>
       
       {/*Here we will have the modals, it will work to display them..*/}
