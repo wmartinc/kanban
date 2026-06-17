@@ -5,7 +5,7 @@ const useAuthorization = () => {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
 
-  const sendRequest = async(email, password) => {
+  const requestSession = async(email, password) => {
     setLoading(true);
     setResponse(null);
     try {

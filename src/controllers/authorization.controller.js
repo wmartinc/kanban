@@ -1,6 +1,6 @@
 const VITE_USERS_ENDPOINT = import.meta.env.VITE_USERS_ENDPOINT
 
-const requestLogin = async (email, password) => {
+const createSesion = async (email, password) => {
   try {
     const respUsers = await fetch(`${VITE_USERS_ENDPOINT}/login`, {
       method: "POST",
@@ -13,6 +13,18 @@ const requestLogin = async (email, password) => {
     return userResponse;
   } catch (error) {
     console.log(error.message)
+  }
+}
+
+const isClientValidated = async() => {
+  try {
+    const respUser = await fetch(`${VITE_USERS_ENDPOINT}/login`, {credentials: "include"});
+    const respSesion = await respUser.json()
+
+    if(!respSesion) return false
+    return respSesion.user
+  } catch (error) {
+    console.log('ocurrio un error: ', error.message)
   }
 }
 

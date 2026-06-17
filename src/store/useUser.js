@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 
 const useUser = create((set) => ({
-  username: '',
-  setUsername: (username) => set({ username }),
+  user: null,
+  setUsername: (user) => set( {user} ),
 }));
 
 export default useUser;
