@@ -21,7 +21,7 @@ const useAuthorization = () => {
   return {
     loading,
     response,
-    sendRequest
+    requestSession
   }
 }
 
