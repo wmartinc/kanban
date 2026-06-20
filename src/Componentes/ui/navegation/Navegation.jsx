@@ -25,7 +25,7 @@ const Navegation = () => {
   const getTotalBoards = async () => {
     updateModalStatus(true, "showBoards")
     fetchBoards();
-  }
+  } 
 
   const showFavoritesModal = () => {
     updateModalStatus(true, "favorites")

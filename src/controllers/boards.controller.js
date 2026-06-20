@@ -2,15 +2,17 @@ const VITE_API = import.meta.env.VITE_BOARDS_ENDPOINT
 
 const getBoards = async () => {
   try {
-    const respApi = await fetch('http://localhost:3000/api/boards', {
+    const respApi = await fetch(`${VITE_API}`, {
       method: 'GET',
       credentials: "include" // To handle cookies (for future features)
     })
 
     const dataApi = await respApi.json();
+    
     return dataApi;
   } catch (error) {
     console.log('Error fetching boards:', error.message);
+    return false
   }
 }
 
@@ -49,9 +51,9 @@ const getFavoritesBoards = async () => {
   }
 }
 
-const getColumns = async (boardName) => {
+const getBoardContent = async (boardName) => {
   try {
-    const responseApi = await fetch(`${VITE_API}/columns/${boardName}`, {
+    const responseApi = await fetch(`${VITE_API}/board/${boardName}`, {
       method: "GET",
       credentials: "include"  
     })
@@ -64,4 +66,4 @@ const getColumns = async (boardName) => {
 }
 
 
-export { getBoards, createNewBoard, getFavoritesBoards, getColumns }
+export { getBoards, createNewBoard, getFavoritesBoards, getBoardContent }
