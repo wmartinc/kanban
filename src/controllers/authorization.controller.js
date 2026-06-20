@@ -13,6 +13,7 @@ const createSesion = async (email, password) => {
     return userResponse;
   } catch (error) {
     console.log(error.message)
+    return false
   }
 }
 
@@ -22,10 +23,13 @@ const isClientValidated = async() => {
     const respSesion = await respUser.json()
 
     if(!respSesion) return false
-    return respSesion.user
+    return respSesion
   } catch (error) {
     console.log('ocurrio un error: ', error.message)
   }
 }
 
-export default requestLogin;
+export {
+  createSesion, 
+  isClientValidated
+}

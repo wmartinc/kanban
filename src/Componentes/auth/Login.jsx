@@ -5,10 +5,14 @@ import { validateEmail } from "./verificationAuth";
 import { useState } from "react";
 import { useEffect } from "react";
 import useAuthorization from "../../hooks/auth/useAuthorization";
+import useUser from "../../store/useUser";
 
 const Login = () => {
+  // getting global states.
+  const setGlobalUser = useUser(state => state.setUser)
+  // local states
   const navigate = useNavigate()
-  const {loading, response, sendRequest} = useAuthorization();
+  const {loading, response, requestSession} = useAuthorization();
   const [isEmailValid, setIsEmailValid] = useState(true)
   const [fillFields, setFillFields] = useState(false)
   const [userCredentials, setUserCredentials] = useState({
@@ -43,7 +47,8 @@ const Login = () => {
   }
 
   if(!loading && response) {
-    navigate('/home', {replace:true})                 
+    setGlobalUser(response.newUser)
+    navigate('/home', {replace:true})
   }
 
   const submitInformation = () => {
@@ -56,7 +61,7 @@ const Login = () => {
     if(!isEmailValid) return;
 
     // we will request information only if the email is correct.
-    sendRequest(userCredentials.email, userCredentials.password)
+    requestSession(userCredentials.email, userCredentials.password)
   }
 
   return (

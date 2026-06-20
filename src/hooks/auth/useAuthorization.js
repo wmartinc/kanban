@@ -1,5 +1,5 @@
 import { useState } from "react"
-import requestLogin from "../../controllers/authorization.controller";
+import { createSesion } from "../../controllers/authorization.controller";
 
 const useAuthorization = () => {
   const [loading, setLoading] = useState(false);
@@ -9,7 +9,7 @@ const useAuthorization = () => {
     setLoading(true);
     setResponse(null);
     try {
-      const respApi = await requestLogin(email, password)
+      const respApi = await createSesion(email, password)
       setLoading(false)
       setResponse(respApi);
     } catch (error) {

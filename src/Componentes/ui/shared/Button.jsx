@@ -1,5 +1,4 @@
 import { Plus } from "lucide-react";
-import { ioClient } from "../../../../utilities/socket";
 
 const Button = ({
   type = 'button',
