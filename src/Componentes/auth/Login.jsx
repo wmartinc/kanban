@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import Button from "../ui/shared/Button";
 import Input from "../ui/shared/Input";
 import { validateEmail } from "./verificationAuth";
@@ -6,13 +6,17 @@ import { useState } from "react";
 import { useEffect } from "react";
 import useAuthorization from "../../hooks/auth/useAuthorization";
 import useUser from "../../store/useUser";
+import useCheckSession from '../../hooks/auth/useCheckSesion'
+import Spinner from '../ui/shared/Spinner'
 
 const Login = () => {
+  // check if the client can be redirected to Home.
+  const { information: informationSession, loading: loadingSession, response: responseSession } = useCheckSession()
   // getting global states.
   const setGlobalUser = useUser(state => state.setUser)
   // local states
   const navigate = useNavigate()
-  const {loading, response, requestSession} = useAuthorization();
+  const { loading, response, requestSession } = useAuthorization();
   const [isEmailValid, setIsEmailValid] = useState(true)
   const [fillFields, setFillFields] = useState(false)
   const [userCredentials, setUserCredentials] = useState({
@@ -25,16 +29,16 @@ const Login = () => {
   }
 
   useEffect(() => {
-    if(loading && !response) {
+    if (loading && !response) {
       console.log('cargando...')
       return
-    } else if (!loading && response ) {
+    } else if (!loading && response) {
       console.log('hola mundo')
     }
   }, [loading, response])
 
   const updateCredentials = (ev) => {
-    if(!isEmailValid) setIsEmailValid(true)
+    if (!isEmailValid) setIsEmailValid(true)
     if (!ev?.target) return
 
     const fieldName = ev.target.name
@@ -46,25 +50,27 @@ const Login = () => {
     })
   }
 
-  if(!loading && response) {
+  if (!loading && response) {
     setGlobalUser(response.newUser)
-    navigate('/home', {replace:true})
+    navigate('/home', { replace: true })
   }
 
   const submitInformation = () => {
-    if(userCredentials.email.trim() === "" || userCredentials.password.trim() === "") {
+    if (userCredentials.email.trim() === "" || userCredentials.password.trim() === "") {
       setFillFields(true)
     }
     // verificamos si el email es correcto...
     const isEmailValid = validateEmail(userCredentials.email)
     setIsEmailValid(isEmailValid)
-    if(!isEmailValid) return;
+    if (!isEmailValid) return;
 
     // we will request information only if the email is correct.
     requestSession(userCredentials.email, userCredentials.password)
   }
 
   return (
+    (loadingSession) ? <Spinner /> : 
+    (!loadingSession && responseSession) ? <Navigate to={"/home"} /> :
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-md border border-gray-500 rounded-lg shadow-sm p-8">
         <div className="mb-8">
@@ -98,7 +104,41 @@ const Login = () => {
         </div>
       </div>
     </div>
-  );
+  )
 };
 
+
+/**<div className="min-h-screen flex items-center justify-center px-4">
+      <div className="w-full max-w-md border border-gray-500 rounded-lg shadow-sm p-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-center text-white">
+            Welcome back!
+          </h1>
+          <p className="text-white/50 text-center">Enter your credentials to see your tasks</p>
+        </div>
+
+        <div className="space-y-6">
+          <div>
+            <Input nameField={"email"} changeEvent={updateCredentials}>Enter Email Address</Input>
+            {
+              !isEmailValid && <span className="text-[#ff0346] ">Try a valid email.</span>
+            }
+          </div>
+
+          <div>
+            <Input nameField={"password"} changeEvent={updateCredentials} type="password">Enter your password.</Input>
+          </div>
+        </div>
+        {
+          fillFields && <span className="text-[#ff0346]">Fill all the fields before continue</span>
+        }
+        <div className="flex space-x-8 m-2">
+          <Button variant="ghost" event={signup}>Sign up</Button>
+          <Button variant="secondary" event={submitInformation}>Log in</Button>
+        </div>
+        <div className="text-white/50 hover:text-white/80 text-center">
+          <a href="">Forgot password?</a>
+        </div>
+      </div>
+    </div> */
 export default Login;

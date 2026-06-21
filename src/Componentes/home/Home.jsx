@@ -14,6 +14,7 @@ import { useNavigate } from "react-router";
 import useGetBoards from "../../hooks/useGetBoards";
 import { useCallback } from "react";
 import { useModals } from "../../store/store";
+import AddBoard from "./AddBoard";
 
 /**
  * When there are changes we will compare the previous information with the new one
@@ -35,15 +36,15 @@ const Home = () => {
     if (loading === false && response === false && !information) {
       return navigate("/")
     }
-    if(!globalUser) return
+    if (!globalUser) return
     fetchBoardInformation(globalUser.main_board.title)
 
   }, [loading, response, navigate, globalUser])
 
   useEffect(() => {
-    if(!responseBoard) return
+    if (!responseBoard) return
     setTarjetas(responseBoard)
-  }, [loadingBoard,  responseBoard])
+  }, [loadingBoard, responseBoard])
 
   const displayModals = () => {
     updateModalStatus(true, "showBoards")
@@ -55,15 +56,8 @@ const Home = () => {
       <main className="w-[95%] h-dvh flex flex-col m-auto relative">
         <Navegation />
         {
-          (!globalUser.main_board) ?
-            <div className="w-full h-full flex place-items-center">
-              <div className="m-auto text-white/75 flex flex-col gap-5">
-                <h1 className="text-2xl">There are no board selected</h1>
-                <button className="hover:cursor-pointer hover:text-white" onClick={displayModals}>
-                  <span className="text-xl underline">Select a board</span>
-                </button>
-              </div>
-            </div>
+          (!globalUser.main_board || tarjetas.length === 0) ?
+            <AddBoard />
             :
             <>
               <h1 className="text-white text-2xl font-semibold mt-4 text-center uppercase">{globalUser.main_board.title}</h1>
