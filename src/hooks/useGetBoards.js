@@ -3,7 +3,7 @@ import { getBoardContent, getBoards } from "../controllers/boards.controller";
 import { useCallback } from "react";
 
 const useGetBoards = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [response, setResponse] = useState(null);
 

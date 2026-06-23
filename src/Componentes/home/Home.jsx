@@ -14,7 +14,8 @@ import { useNavigate } from "react-router";
 import useGetBoards from "../../hooks/useGetBoards";
 import { useCallback } from "react";
 import { useModals } from "../../store/store";
-import AddBoard from "./AddBoard";
+import AddContent from "./AddContent";
+import BoardContent from "./BoardContent";
 
 /**
  * When there are changes we will compare the previous information with the new one
@@ -28,7 +29,6 @@ const Home = () => {
   // We will do a request to the server to check if the user is fully validated.
   const globalUser = useUser(state => state.user)
   const setUser = useUser((state) => state.setProperty)
-  const [tarjetas, setTarjetas] = useState([])  // const boardSelected = useBoards(state => state.boardSelected);
   const { loading, response, information } = useCheckSession()
   const { fetchBoardInformation, loading: loadingBoard, response: responseBoard } = useGetBoards()
 
@@ -36,47 +36,27 @@ const Home = () => {
     if (loading === false && response === false && !information) {
       return navigate("/")
     }
-    if (!globalUser) return
-    fetchBoardInformation(globalUser.main_board.title)
 
+    if (!loading && globalUser.main_board) {
+      fetchBoardInformation(globalUser.main_board.title)
+    }
   }, [loading, response, navigate, globalUser])
-
-  useEffect(() => {
-    if (!responseBoard) return
-    setTarjetas(responseBoard)
-  }, [loadingBoard, responseBoard])
-
-  const displayModals = () => {
-    updateModalStatus(true, "showBoards")
-  }
 
   return (
 
     (loading && !information) ? <Spinner /> :
       <main className="w-[95%] h-dvh flex flex-col m-auto relative">
         <Navegation />
-        {
-          (!globalUser.main_board || tarjetas.length === 0) ?
-            <AddBoard />
-            :
-            <>
-              <h1 className="text-white text-2xl font-semibold mt-4 text-center uppercase">{globalUser.main_board.title}</h1>
-              <DragDropProvider
-                onDragOver={(event) => {
-                  if (event.operation.canceled) return;
-                  setTarjetas((prev) => move(tarjetas, event))  // this is the reason the cards are not changing position.
-                }}
-              >
-                <section className="w-full overflow-y-scroll overflow-x-hidden md:bg-transparent md:flex-wrap lg:flex-row flex-col flex-1 my-4 mx-auto flex gap-5">
-                  {
-                    loadingBoard && tarjetas?.length === 0 ? <Spinner /> : Object.entries(tarjetas)?.map(([column, tasks], index) => (
-                      <TaskViewer key={column} column={column} index={index} tasks={tasks} />
-                    ))
-                  }
-                </section>
-              </DragDropProvider>
-            </>
-        }
+
+        <section className="flex flex-1 flex-col">
+          {(!loadingBoard && globalUser) && <h1 className="text-white text-2xl text-center font-semibold capitalize">{globalUser.main_board.title}</h1>}
+          {
+            (loadingBoard && globalUser.main_board) ? <Spinner /> :
+            (!globalUser.main_board) ? <AddContent btnText={"Select a new board"} openModal={"showBoards"}>There are no board selected.</AddContent> :
+            (responseBoard.length == 0) ? <AddContent btnText={"Create a column"} openModal={"addTask"}>There are no columns created.</AddContent> :  
+            <BoardContent loadingBoard responseBoard />
+          }
+        </section>
       </main>
   )
 }
