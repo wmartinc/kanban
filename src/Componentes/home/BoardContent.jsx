@@ -2,6 +2,8 @@ import { move } from "@dnd-kit/helpers";
 import { DragDropProvider } from "@dnd-kit/react";
 import { useState } from "react";
 import { useEffect } from "react";
+import Spinner from "../ui/shared/Spinner";
+import TaskViewer from "./TaskViewer";
 
 const BoardContent = ({ loadingBoard, responseBoard }) => {
   const [tarjetas, setTarjetas] = useState([])  // const boardSelected = useBoards(state => state.boardSelected);

@@ -4,12 +4,11 @@ import TaskCard from "./TaskCard";
 import { GripHorizontal } from "lucide-react";
 import { useState } from "react";
 import { useSortable } from "@dnd-kit/react/sortable";
-import { useRef } from "react";
 import { CollisionPriority } from "@dnd-kit/abstract"
 import { useEffect } from "react";
 import useGetTasks from "../../hooks/useGetTasks";
 
-const TaskViewer = ({ children, column, index, id, tasks}) => {
+const TaskViewer = ({ column, index, tasks }) => {
   const { fetchTasks, loading, response } = useGetTasks();
   const [mouseOver, setMouseOver] = useState(false)
   const { ref } = useDroppable({
