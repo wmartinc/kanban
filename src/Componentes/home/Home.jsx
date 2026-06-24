@@ -25,11 +25,13 @@ const Home = () => {
   const { fetchBoardInformation, loading: loadingBoard, response: responseBoard } = useGetBoards()
 
   useEffect(() => {
-    if (loading === false && response === false && !information) {
+    if (!loading && !response && !information) {
+      console.log(false, response, information)
       return navigate("/")
     }
 
     if (!loading && globalUser.main_board) {
+      console.log('entra aca')
       fetchBoardInformation(globalUser.main_board.title)
     }
   }, [loading, response, navigate, globalUser])
@@ -39,14 +41,13 @@ const Home = () => {
     (loading && !information) ? <Spinner /> :
       <main className="w-[95%] h-dvh flex md:flex-col m-auto relative flex-col-reverse">
         <Navegation />
-
         <section className="flex flex-1 flex-col">
-          {(!loadingBoard && globalUser) && <h1 className="text-white text-2xl text-center font-semibold capitalize">{globalUser.main_board.title}</h1>}
+          {(!loadingBoard && globalUser?.main_board) && <h1 className="text-white text-2xl text-center font-semibold capitalize">{globalUser?.main_board?.title}</h1>}
           {
-            (loadingBoard && globalUser.main_board) ? <Spinner /> :
-              (!globalUser.main_board) ? <AddContent btnText={"Select a new board"} openModal={"showBoards"}>There are no board selected.</AddContent> :
-                (responseBoard.length == 0) ? <AddContent btnText={"Create a column"} openModal={"addTask"}>There are no columns created.</AddContent> :
-                  <BoardContent loadingBoard={loadingBoard} responseBoard={responseBoard} />
+            (loadingBoard && globalUser?.main_board) ? <Spinner /> :
+            (!globalUser?.main_board) ? <AddContent btnText={"Select a new board"} openModal={"showBoards"}>There are no board selected.</AddContent> :
+            (responseBoard.length == 0) ? <AddContent btnText={"Create a column"} openModal={"addTask"}>There are no columns created.</AddContent> :
+            <BoardContent loadingBoard={loadingBoard} responseBoard={responseBoard} />
           }
         </section>
       </main>
