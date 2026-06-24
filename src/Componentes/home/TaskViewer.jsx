@@ -29,7 +29,7 @@ const TaskViewer = ({ column, index, tasks }) => {
 
   // Function is gonna define sortableElement as the reference.
   return (
-    <section className={`flex-1 shadow-[2px_2px_10px_rgba(0,0,0,0.5)] relative min-w-75 border border-neutral-400/10 duration-500 h-fit rounded-xl flex flex-col items-center bg-black/10 p-2`}
+    <section className={`flex-1 shadow-[2px_2px_10px_rgba(0,0,0,0.5)] relative min-w-75 max-w-80 border border-neutral-400/10 duration-500 h-fit rounded-xl flex flex-col items-center bg-black/10 p-2`}
       onMouseEnter={mouseEnter}
       onMouseLeave={mouseLeave}
       data-id={column}
