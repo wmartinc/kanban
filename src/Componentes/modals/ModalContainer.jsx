@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import CreateBoardModal from "./CreateBoardModal";
 import ShowBoards from "./ShowBoards";
 import FavoritesModal from "./FavoritesModal";
+import ChangeCardModal from "./ChangeCardModal";
 
 
 const ModalContainer = ({shown}) => {
@@ -14,6 +15,7 @@ const ModalContainer = ({shown}) => {
   const updateModalStatus = useModals((state) => state.updateModalStatus)
   const modalNewBoard = useModals((state) => state.modals.addBoard)  
   const favorites = useModals(state => state.modals.favorites)
+  const changeTask = useModals(state => state.modals.changeTask)
 
   const hideModalContainer = () => {
     updateModalStatus(false)
@@ -29,6 +31,7 @@ const ModalContainer = ({shown}) => {
           {modalNewBoard && <CreateBoardModal /> }
           {modalShowBoards && <ShowBoards /> }
           {favorites && <FavoritesModal />}
+          {changeTask && <ChangeCardModal />}
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

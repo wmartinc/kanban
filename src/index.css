@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+
+*{
+  box-sizing: border-box;
+}
+
 *::-webkit-scrollbar {
   width: 0px;
 }
@@ -7,6 +12,10 @@
 * { 
   scrollbar-color: rgba(255, 255, 255, 0.085) transparent;
   scrollbar-width: thin;
+}
+
+button {
+  cursor: pointer;
 }
 
 .animation {

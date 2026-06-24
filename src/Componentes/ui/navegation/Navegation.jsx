@@ -71,10 +71,10 @@ const NavegationOptionsMobile = ({createBoard, showBoards, showFavoriteBoards })
   const btn_menu = "transition[background] duration-500 p-2 w-full text-start text-sm flex items-center gap-2 cursor-pointer hover:bg-white/5"
 
   return (
-    <div className='flex items-center gap-5 justify-between md:hidden w-full'>
+    <div className='flex gap-5 justify-between md:hidden w-full h-full'>
       <Menu className='stroke-white ml-auto cursor-pointer ' onClick={toggleMenu}/>
       {/* Submenu */}
-      <div className={`text-white border rounded-[6px_0px_0px_6px] border-white/20 transition[position] duration-300 fixed top-0 w-1/2 ${isShown ? "right-0" : "-right-50"} h-full z-10 bg-[#0d0d0d]`}>
+      <div className={`text-white border rounded-[6px_0px_0px_6px] border-white/20 transition[position] duration-500 ease-in-out fixed top-0 w-1/2 ${isShown ? "right-0" : "-right-200"} h-full z-10 bg-[#0d0d0d]`}>
         <div className='p-2 border-b border-white/20'>
           <button className={btn_menu}><User size={18}/>My Account</button>
         </div>

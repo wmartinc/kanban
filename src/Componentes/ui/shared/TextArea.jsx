@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const TextArea = ({fieldName, changeEvent }) => {
+const TextArea = ({fieldName, changeEvent, size="" }) => {
 
   const [isFieldFocus, setFieldFocus] = useState(false)
 
@@ -13,7 +13,7 @@ const TextArea = ({fieldName, changeEvent }) => {
     setFieldFocus(true)
   }
   return (
-    <div className="relative">
+    <div className={`relative ${size}`}>
       <label htmlFor="" className={`ml-2 absolute transition text-sm ${isFieldFocus ? 'top-0 translate-y-[-50%] bg-neutral-950 text-gray-400' : ' text-gray-100'} `}>Description</label>
       <textarea name={fieldName} onChange={changeEvent} className={`w-full h-20 text-sm border border-white/25 focus:border-white  rounded-md p-2
        text-gray-300 outline-0 resize-none`} onFocus={handleFocus} onBlur={handleBlur}></textarea>

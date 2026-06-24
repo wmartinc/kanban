@@ -39,7 +39,7 @@ const Home = () => {
   return (
 
     (loading && !information) ? <Spinner /> :
-      <main className="w-[95%] h-dvh flex md:flex-col m-auto relative flex-col-reverse">
+      <main className="w-[95%] h-dvh flex flex-col m-auto relative">
         <Navegation />
         <section className="flex flex-1 flex-col">
           {(!loadingBoard && globalUser?.main_board) && <h1 className="text-white text-2xl text-center font-semibold capitalize">{globalUser?.main_board?.title}</h1>}
@@ -49,6 +49,7 @@ const Home = () => {
             (responseBoard.length == 0) ? <AddContent btnText={"Create a column"} openModal={"addTask"}>There are no columns created.</AddContent> :
             <BoardContent loadingBoard={loadingBoard} responseBoard={responseBoard} />
           }
+          
         </section>
       </main>
   )
