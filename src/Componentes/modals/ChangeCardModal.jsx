@@ -36,7 +36,6 @@ const ChangeCardModal = ({ cardData }) => {
   };
 
   const handleSaveChanges = () => {
-    // Aquí irá la lógica para guardar cambios
     console.log("Guardando cambios:", cardInformation);
     closeModal();
   };
@@ -49,7 +48,7 @@ const ChangeCardModal = ({ cardData }) => {
         variant="ghost"
         event={() => setSelectedOption(optionKey)}
         className={`flex-1 flex-col items-start justify-start h-auto ${isSelected
-          ? "bg-sky-500/30 border border-sky-500/50"
+          ? "border border-sky-500/50"
           : ""
           }`}
       >
