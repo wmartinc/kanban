@@ -45,7 +45,7 @@ const getFavoritesBoards = async () => {
     })
     const dataApi = await responseApi.json();
     if(!dataApi.confirmation) return false
-    return {boardInfo: dataApi.boardInfo, columns: dataApi.columns};
+    return dataApi
   } catch (error) {
     console.log('Error during the process:  ', error.message)
   }

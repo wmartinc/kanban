@@ -26,7 +26,7 @@ const Home = () => {
 
   useEffect(() => {
     if (!loading && !response && !information) {
-      console.log(false, response, information)
+      console.log(false, response, information) 
       return navigate("/")
     }
 

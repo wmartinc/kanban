@@ -4,14 +4,16 @@ import Button from '../../ui/shared/Button';
 import Searcher from '../shared/Searcher';
 import useGetBoards from '../../../hooks/useGetBoards';
 import { useEffect } from 'react';
-import { getBoards } from '../../../controllers/boards.controller';
+import { getBoards, getFavoritesBoards } from '../../../controllers/boards.controller';
 import { useBoards } from '../../../store/useBoards';
 import { Menu, User, Plus, Columns, Grid3x3, Star, Settings } from 'lucide-react';
 import { useState } from 'react';
 import { X } from 'lucide-react';
+import useGetFavoriteBoards from '../../../hooks/useGetFavoriteBoards';
 
 const Navegation = () => {
-  const { fetchBoards, loading, response } = useGetBoards();
+  const { fetchBoards, loading, response } = useGetBoards()
+  const { favorites, getFavorites, loading:loadingFavorites } = useGetFavoriteBoards() 
   const updateModalStatus = useModals((state) => state.updateModalStatus)
   const setBoards = useBoards(state => state.setBoards);
 
@@ -31,7 +33,8 @@ const Navegation = () => {
   }
 
   const showFavoritesModal = () => {
-    updateModalStatus(true, "favorites")
+    updateModalStatus(true, "showBoards")
+    getFavorites()
   }
 
   return (
