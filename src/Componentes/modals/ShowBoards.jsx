@@ -1,25 +1,16 @@
 import { useState } from "react"
 import BoardsView from "../ui/shared/BoardCard"
 import Spinner from "../ui/shared/Spinner"
-import { Trash } from "lucide-react"
-import { SquarePen } from "lucide-react"
-import { ChevronRight } from "lucide-react"
+import { Trash, SquarePen, ChevronRight, LayoutDashboard } from "lucide-react"
 import { useModals } from "../../store/store"
-import { io } from "socket.io-client"
-import useGetBoards from "../../hooks/useGetBoards"
-import { useEffect } from "react"
 import useUser from "../../store/useUser"
 import { ioClient } from "../../controllers/socket"
 import { useBoards } from "../../store/useBoards"
 import { useLayoutEffect } from "react"
 
-const actionClass = "cursor-pointer rounded-md text-white/50 transition duration-300"
-
 const ShowBoards = () => {
 
   const [selectedBoard, setSelectedBoard] = useState(null)
-  const user = useUser(state => state.user)
-  // STORE.
   const setProperty = useUser((state) => state.setProperty)
   const updateModalStatus = useModals((state) => state.updateModalStatus)
   const loading = useBoards(state => state.status.loading)
@@ -41,9 +32,6 @@ const ShowBoards = () => {
       setTasksToRender(boards)
     }
   }, [fetched, boards, favorites])
-  const deleteBoard = () => { }
-
-  const updateBoard = () => { }
 
   const goToBoard = () => { 
     setProperty("main_board", selectedBoard)
@@ -52,29 +40,37 @@ const ShowBoards = () => {
   }
 
   return (
-    <div className='absolute top-1/2 left-1/2 bg-neutral-950 w-[90%] max-w-200 translate-x-[-50%] translate-y-[-50%] rounded-lg
-     border border-white/20 flex items-center  p-4 flex-col h-125'>
-      <h1 className='text-white text-lg sm:text-xl md:text-2xl font-semibold'>Your Boards</h1>
-      <div className={`w-full py-4 ${loading ? "h-full": ""} grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto place-items-center`}>
+    <div className='absolute top-1/2 left-1/2 bg-elevated w-[90%] max-w-3xl translate-x-[-50%] translate-y-[-50%] rounded-2xl
+     border border-zinc-800 p-6 flex flex-col shadow-xl shadow-black/30'
+    >
+      <div className="flex items-center gap-2.5 mb-5">
+        <LayoutDashboard className="size-5 text-purple-400" />
+        <h1 className='text-lg font-display font-semibold text-zinc-100'>Your Boards</h1>
+      </div>
+      <div className={`w-full ${loading ? "min-h-[16rem]": ""} grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto place-items-center pb-2`}>
         {
           loading && tasksToRender?.length == 0 ? <div className="col-span-full flex items-center h-full justify-center"><Spinner /></div> :
             (tasksToRender?.content?.length > 0 && !loading) ? tasksToRender?.content.map(board => (
               <BoardsView key={board.id} id={board.id} title={board.board_name} description={board.description} selectId={handleSelectBoard} boardSelected={selectedBoard} />
-            )) : <h1 className="text-white/50 col-span-full text-sm sm:text-base">No boards yet</h1>
+            )) : <p className="text-zinc-500 col-span-full text-sm">No boards yet</p>
         }
       </div>
       {
         selectedBoard &&
-        <div className="flex mt-2 flex-wrap p-2 gap-6 ml-auto">
-          <SquarePen className={`${actionClass} hover:text-white`} />
-          <Trash className={`${actionClass} hover:text-red-500/50`} />
-          <ChevronRight className={`${actionClass} hover:text-white`} onClick={goToBoard} />
+        <div className="flex mt-4 pt-4 border-t border-zinc-800 gap-4 justify-end">
+          <button className="p-2 rounded-lg text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/50 transition-all">
+            <SquarePen className="size-4" />
+          </button>
+          <button className="p-2 rounded-lg text-zinc-500 hover:text-rose-400 hover:bg-rose-500/10 transition-all">
+            <Trash className="size-4" />
+          </button>
+          <button className="p-2 rounded-lg text-zinc-500 hover:text-purple-400 hover:bg-purple-500/10 transition-all" onClick={goToBoard}>
+            <ChevronRight className="size-4" />
+          </button>
         </div>
       }
     </div>
   )
 }
-
-
 
 export default ShowBoards;

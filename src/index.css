@@ -1,16 +1,35 @@
 @import 'tailwindcss';
 
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Inter Tight', var(--font-sans);
 
-*{
+  --color-base: oklch(0.141 0 0);
+  --color-surface: oklch(0.166 0 0);
+  --color-elevated: oklch(0.205 0 0);
+  --color-border: oklch(0.274 0 0);
+  --color-muted: oklch(0.556 0 0);
+}
+
+* {
   box-sizing: border-box;
 }
 
 *::-webkit-scrollbar {
-  width: 0px;
+  width: 4px;
 }
 
-* { 
-  scrollbar-color: rgba(255, 255, 255, 0.085) transparent;
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 99px;
+}
+
+* {
+  scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
   scrollbar-width: thin;
 }
 
@@ -23,25 +42,30 @@ button {
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }  
+}
 
-  to {
-    opacity: 1;
-  }
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .checkbox {
   appearance: none;
   width: 20px;
   height: 20px;
-  border: 2px solid white;
+  border: 2px solid oklch(0.556 0 0);
   border-radius: 4px;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: border-color 0.2s ease;
+}
+
+.checkbox:hover {
+  border-color: oklch(0.704 0.04 256.788);
 }
 
 .checkbox::before {
@@ -58,5 +82,9 @@ button {
 
 .checkbox:checked::before {
   transform: scale(1);
-  background-color: white;
+  background-color: #c084fc;
+}
+
+.checkbox:checked {
+  border-color: #c084fc;
 }

@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const TextArea = ({fieldName, changeEvent, size="" }) => {
+const TextArea = ({ fieldName, changeEvent, size = "" }) => {
 
   const [isFieldFocus, setFieldFocus] = useState(false)
 
@@ -14,9 +14,9 @@ const TextArea = ({fieldName, changeEvent, size="" }) => {
   }
   return (
     <div className={`relative ${size}`}>
-      <label htmlFor="" className={`ml-2 absolute transition text-sm ${isFieldFocus ? 'top-0 translate-y-[-50%] bg-neutral-950 text-gray-400' : ' text-gray-100'} `}>Description</label>
-      <textarea name={fieldName} onChange={changeEvent} className={`w-full h-20 text-sm border border-white/25 focus:border-white  rounded-md p-2
-       text-gray-300 outline-0 resize-none`} onFocus={handleFocus} onBlur={handleBlur}></textarea>
+      <label htmlFor="" className={`ml-2.5 absolute transition-transform text-sm px-1 ${isFieldFocus ? 'translate-y-[-50%] text-purple-400/70 bg-surface' : ' text-zinc-500'} `}>Description</label>
+      <textarea name={fieldName} onChange={changeEvent} className={`w-full h-20 text-sm border transition-colors duration-300 ${isFieldFocus ? 'border-purple-500/50' : 'border-zinc-700'} focus:border-purple-500/50 rounded-lg p-2.5
+       text-zinc-100 outline-none resize-none bg-transparent`} onFocus={handleFocus} onBlur={handleBlur}></textarea>
     </div>
   )
 }

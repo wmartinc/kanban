@@ -6,22 +6,21 @@ import Spinner from "../ui/shared/Spinner";
 import TaskViewer from "./TaskViewer";
 
 const BoardContent = ({ loadingBoard, responseBoard }) => {
-  const [tarjetas, setTarjetas] = useState([])  // const boardSelected = useBoards(state => state.boardSelected);
+  const [tarjetas, setTarjetas] = useState([])
 
   useEffect(() => {
     if (!responseBoard) return
     setTarjetas(responseBoard)
-
   }, [loadingBoard, responseBoard])
 
   return (
     <DragDropProvider
       onDragOver={(event) => {
         if (event.operation.canceled) return;
-        setTarjetas((prev) => move(tarjetas, event))  // this is the reason the cards are not changing position.
+        setTarjetas(() => move(tarjetas, event))
       }}
     >
-      <section className="w-full h-full md:bg-transparent overflow-x-scroll flex-row my-4 mx-auto flex gap-5">
+      <section className="w-full h-full overflow-x-auto flex-row py-2 flex gap-5">
         {
           loadingBoard && tarjetas?.length === 0 ? <Spinner /> : Object.entries(tarjetas)?.map(([column, tasks], index) => (
             <TaskViewer key={column} column={column} index={index} tasks={tasks} />

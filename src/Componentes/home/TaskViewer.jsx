@@ -1,16 +1,13 @@
 import { useDroppable } from "@dnd-kit/react";
 import Button from "../ui/shared/Button";
 import TaskCard from "./TaskCard";
-import { GripHorizontal } from "lucide-react";
+import { GripHorizontal, Plus } from "lucide-react";
 import { useState } from "react";
-import { useSortable } from "@dnd-kit/react/sortable";
 import { CollisionPriority } from "@dnd-kit/abstract"
-import { useEffect } from "react";
-import useGetTasks from "../../hooks/useGetTasks";
-import { Plus } from "lucide-react";
+import { useModals } from "../../store/store";
 
 const TaskViewer = ({ column, index, tasks }) => {
-  const { fetchTasks, loading, response } = useGetTasks();
+  const updateModalStatus = useModals(state => state.updateModalStatus)
   const [mouseOver, setMouseOver] = useState(false)
   const { ref } = useDroppable({
     id: column,
@@ -19,29 +16,31 @@ const TaskViewer = ({ column, index, tasks }) => {
     collisionPriority: CollisionPriority.Low
   })
 
-  //! Para evitar hacer muchas peticiones de las tareas vamos a utilizar web sockets
-  const mouseEnter = () => {
-    setMouseOver(true)
+  const mouseEnter = () => setMouseOver(true)
+  const mouseLeave = () => setMouseOver(false)
+
+  const addTask = () => {
+    updateModalStatus(true, "addTask")
   }
 
-  const mouseLeave = () => {
-    setMouseOver(false)
-  }
-  
-  // Function is gonna define sortableElement as the reference.
   return (
-    <section className={`flex-1 shadow-[2px_2px_10px_rgba(0,0,0,0.5)] relative min-w-60 max-w-80 border border-neutral-400/10 duration-500 h-fit rounded-xl flex flex-col items-center bg-black/10 p-2`}
+    <section
+      className="relative min-w-60 max-w-80 h-fit rounded-xl flex flex-col bg-elevated/40 border border-zinc-800/60 animate-[slideUp_0.3s_ease-out]"
       onMouseEnter={mouseEnter}
       onMouseLeave={mouseLeave}
       data-id={column}
+      style={{ animationDelay: `${index * 60}ms`, animationFillMode: 'both' }}
     >
-      {mouseOver && <GripHorizontal className="absolute stroke-white right-6 top-4 cursor-pointer " />}
-      <h1 className="text-center text-lg text-white font-bold p-2">{column}</h1>
-      <section ref={ref} className={`flex flex-col w-full gap-3 p-5 rounded-xl  flex-1`}>
+      <div className="h-0.5 rounded-t-xl bg-linear-to-r from-purple-400/60 to-teal-400/60" />
+      {mouseOver && <GripHorizontal className="absolute stroke-zinc-500 right-4 top-3.5 cursor-pointer size-4" />}
+      <h1 className="text-center text-sm font-display font-semibold text-zinc-300 pt-3 pb-1 px-4">{column}</h1>
+      <section ref={ref} className="flex flex-col w-full gap-2 p-3 flex-1">
         {tasks?.map((data, ind) => (
           <TaskCard key={data.id} information={data} index={ind} column={column} />
         ))}
-        <Button variant="add" className="w-[60%] px-2 text-xs text-white/50 m-auto">Add a card</Button>
+        <Button variant="add" className="w-full mt-1 text-xs" event={addTask}>
+          <Plus className="size-3.5 mr-1" /> Add a card
+        </Button>
       </section>
     </section>
   )

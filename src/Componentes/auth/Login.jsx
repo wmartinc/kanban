@@ -8,13 +8,11 @@ import useAuthorization from "../../hooks/auth/useAuthorization";
 import useUser from "../../store/useUser";
 import useCheckSession from '../../hooks/auth/useCheckSesion'
 import Spinner from '../ui/shared/Spinner'
+import { LayoutDashboard } from "lucide-react";
 
 const Login = () => {
-  // check if the client can be redirected to Home.
-  const { information: informationSession, loading: loadingSession, response: responseSession } = useCheckSession()
-  // getting global states.
+  const { loading: loadingSession, response: responseSession } = useCheckSession()
   const setGlobalUser = useUser(state => state.setUser)
-  // local states
   const navigate = useNavigate()
   const { loading, response, requestSession } = useAuthorization();
   const [isEmailValid, setIsEmailValid] = useState(true)
@@ -29,12 +27,7 @@ const Login = () => {
   }
 
   useEffect(() => {
-    if (loading && !response) {
-      console.log('cargando...')
-      return
-    } else if (!loading && response) {
-      console.log('hola mundo')
-    }
+    if (loading && !response) return
   }, [loading, response])
 
   const updateCredentials = (ev) => {
@@ -59,86 +52,55 @@ const Login = () => {
     if (userCredentials.email.trim() === "" || userCredentials.password.trim() === "") {
       setFillFields(true)
     }
-    // verificamos si el email es correcto...
     const isEmailValid = validateEmail(userCredentials.email)
     setIsEmailValid(isEmailValid)
     if (!isEmailValid) return;
 
-    // we will request information only if the email is correct.
     requestSession(userCredentials.email, userCredentials.password)
   }
 
   return (
     (loadingSession) ? <Spinner /> : 
     (!loadingSession && responseSession) ? <Navigate to={"/home"} /> :
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="w-full max-w-md border border-gray-500 rounded-lg shadow-sm p-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-center text-white">
-            Welcome back!
+    <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-base via-surface to-base">
+      <div className="w-full max-w-md border border-zinc-800 rounded-2xl shadow-xl shadow-black/30 p-8 bg-elevated">
+        <div className="mb-8 text-center">
+          <div className="inline-flex items-center justify-center size-12 rounded-xl bg-purple-500/10 mb-4">
+            <LayoutDashboard className="size-6 text-purple-400" />
+          </div>
+          <h1 className="text-2xl font-display font-semibold text-zinc-100">
+            Welcome back
           </h1>
-          <p className="text-white/50 text-center">Enter your credentials to see your tasks</p>
+          <p className="text-zinc-500 text-sm mt-1">Enter your credentials to see your tasks</p>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-5">
           <div>
             <Input nameField={"email"} changeEvent={updateCredentials}>Enter Email Address</Input>
             {
-              !isEmailValid && <span className="text-[#ff0346] ">Try a valid email.</span>
+              !isEmailValid && <span className="text-rose-400 text-xs mt-1 block">Try a valid email</span>
             }
           </div>
 
           <div>
-            <Input nameField={"password"} changeEvent={updateCredentials} type="password">Enter your password.</Input>
+            <Input nameField={"password"} changeEvent={updateCredentials} type="password">Enter your password</Input>
           </div>
         </div>
         {
-          fillFields && <span className="text-[#ff0346]">Fill all the fields before continue</span>
+          fillFields && <span className="text-rose-400 text-xs mt-2 block">Fill all the fields before continuing</span>
         }
-        <div className="flex space-x-8 m-2">
-          <Button variant="ghost" event={signup}>Sign up</Button>
-          <Button variant="secondary" event={submitInformation}>Log in</Button>
+        <div className="flex gap-3 mt-6">
+          <Button variant="ghost" event={signup} className="flex-1">Sign up</Button>
+          <Button variant="primary" event={submitInformation} className="flex-1">Log in</Button>
         </div>
-        <div className="text-white/50 hover:text-white/80 text-center">
-          <a href="">Forgot password?</a>
+        <div className="mt-4 text-center">
+          <button className="text-zinc-500 hover:text-zinc-400 text-sm transition-colors">
+            Forgot password?
+          </button>
         </div>
       </div>
     </div>
   )
 };
 
-
-/**<div className="min-h-screen flex items-center justify-center px-4">
-      <div className="w-full max-w-md border border-gray-500 rounded-lg shadow-sm p-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-center text-white">
-            Welcome back!
-          </h1>
-          <p className="text-white/50 text-center">Enter your credentials to see your tasks</p>
-        </div>
-
-        <div className="space-y-6">
-          <div>
-            <Input nameField={"email"} changeEvent={updateCredentials}>Enter Email Address</Input>
-            {
-              !isEmailValid && <span className="text-[#ff0346] ">Try a valid email.</span>
-            }
-          </div>
-
-          <div>
-            <Input nameField={"password"} changeEvent={updateCredentials} type="password">Enter your password.</Input>
-          </div>
-        </div>
-        {
-          fillFields && <span className="text-[#ff0346]">Fill all the fields before continue</span>
-        }
-        <div className="flex space-x-8 m-2">
-          <Button variant="ghost" event={signup}>Sign up</Button>
-          <Button variant="secondary" event={submitInformation}>Log in</Button>
-        </div>
-        <div className="text-white/50 hover:text-white/80 text-center">
-          <a href="">Forgot password?</a>
-        </div>
-      </div>
-    </div> */
 export default Login;

@@ -9,9 +9,7 @@ import AlertDialog from "../ui/shared/AlertDialog";
 const BOARDS_ENDPOINT = import.meta.env.VITE_BOARDS_ENDPOINT
 
 const CreateBoardModal = () => {
-  // States 
   const [isNewCreated, setIsNewCreated] = useState(false)
-  const [isEntryValid, setEntryValid] = useState(true)
   const [boardInformation, setBoardInformation] = useState({
     boardName: "",
     description: ""
@@ -23,10 +21,8 @@ const CreateBoardModal = () => {
   })
 
   const [descriptionField, setDescriptionField] = useState(false)
-  // Global Status Modifiers 
   const modifyStatusModal = useModals((state) => state.updateModalStatus);
 
-  // Functions
   const closeModal = () => {
     modifyStatusModal(false)
   }
@@ -47,16 +43,14 @@ const CreateBoardModal = () => {
     })
   }
 
-
   const createBoard = async () => {
     const isTitleValid = checkTitleBoard(boardInformation.boardName)
     const isDescriptionValid = checkDescriptionBoard(boardInformation.description)
 
-    console.log(isTitleValid, isDescriptionValid)
     checkFieldInformation("boardName", isTitleValid)
     checkFieldInformation("description", isDescriptionValid)
 
-    if (!isTitleValid || !isDescriptionValid) return setEntryValid(false);
+    if (!isTitleValid || !isDescriptionValid) return;
     const isBoardCreated = await createNewBoard(BOARDS_ENDPOINT, boardInformation)
     setIsNewCreated(isBoardCreated);
     closeModal()
@@ -68,35 +62,37 @@ const CreateBoardModal = () => {
   const checkFieldInformation = (fieldName, value) => {
     setIsInformationCorrect(info => ({ ...info, [fieldName]: value }))
   }
+
   return (
     <div>
-      <div className="bg-neutral-950 absolute top-1/2 left-1/2 max-w-96 -translate-x-1/2 -translate-y-1/2 w-[90%] md:w-[40%] p-5 rounded-lg">
+      <div className="bg-elevated border border-zinc-800 absolute top-1/2 left-1/2 max-w-md -translate-x-1/2 -translate-y-1/2 w-[90%] p-6 rounded-2xl shadow-xl shadow-black/30">
+        <h2 className="text-lg font-display font-semibold text-zinc-100 mb-5">New board</h2>
         <div>
           <Input nameField={"boardName"} changeEvent={addInformation}>What's the board name?</Input>
           {
-            !isInformationCorrect.boardName && <div className="text-rose-700 text-sm ml-2 " >
-              Enter a valid value.
+            !isInformationCorrect.boardName && <div className="text-rose-400 text-xs mt-1 ml-1">
+              Enter a valid value
             </div>
           }
         </div>
-        <div className="flex gap-2 items-center mt-4">
+        <div className="flex gap-2.5 items-center mt-4">
           <input className="checkbox" onClick={addDescription} type="checkbox" id="add-description" />
-          <label className="text-white/50" htmlFor="add-description">Add description.</label>
+          <label className="text-zinc-500 text-sm cursor-pointer select-none" htmlFor="add-description">Add description</label>
         </div>
         {
           descriptionField && <div className="mt-4">
             <TextArea fieldName={"description"} changeEvent={addInformation} />
             {
-              !isInformationCorrect.description && <div className="text-rose-700 text-sm ml-2 " >
-                Enter a valid value.
+              !isInformationCorrect.description && <div className="text-rose-400 text-xs mt-1 ml-1">
+                Enter a valid value
               </div>
             }
           </div>
         }
 
-        <div className="flex justify-around items-center p-5 gap-4">
+        <div className="flex justify-end items-center gap-3 mt-6">
           <Button variant="ghost" event={closeModal}>Cancel</Button>
-          <Button variant="ghost" event={createBoard}>Create Board</Button>
+          <Button variant="primary" event={createBoard}>Create Board</Button>
         </div>
       </div>
       {

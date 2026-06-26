@@ -9,7 +9,7 @@ function App() {
   const modalContainer = useModals((state) => state.modals.modalContainer)
 
   return (
-    <div className='bg-black/95 h-dvh'>
+    <div className='bg-base h-dvh text-zinc-100 antialiased'>
       <Routes>
         <Route path="/" element={<Login/>} />
         <Route path="/signup" element={<Signup/>} />
@@ -18,7 +18,6 @@ function App() {
         </Route>
       </Routes>
       
-      {/*Here we will have the modals, it will work to display them..*/}
       <ModalContainer shown={modalContainer}/>
     </div>
   )

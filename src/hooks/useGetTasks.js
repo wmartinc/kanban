@@ -18,7 +18,7 @@ const useGetTasks = () => {
       setError(error.message);
       console.log('Error getting tasks:', error.message); 
     }
-  }
+  } 
 
   return {
     loading,

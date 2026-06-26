@@ -4,16 +4,15 @@ import Button from '../../ui/shared/Button';
 import Searcher from '../shared/Searcher';
 import useGetBoards from '../../../hooks/useGetBoards';
 import { useEffect } from 'react';
-import { getBoards, getFavoritesBoards } from '../../../controllers/boards.controller';
 import { useBoards } from '../../../store/useBoards';
-import { Menu, User, Plus, Columns, Grid3x3, Star, Settings } from 'lucide-react';
+import { Menu, User, Plus, Grid3x3, Star, Settings } from 'lucide-react';
 import { useState } from 'react';
 import { X } from 'lucide-react';
 import useGetFavoriteBoards from '../../../hooks/useGetFavoriteBoards';
 
 const Navegation = () => {
   const { fetchBoards, loading, response } = useGetBoards()
-  const { favorites, getFavorites, loading:loadingFavorites } = useGetFavoriteBoards() 
+  const { getFavorites } = useGetFavoriteBoards() 
   const updateModalStatus = useModals((state) => state.updateModalStatus)
   const setBoards = useBoards(state => state.setBoards);
 
@@ -38,9 +37,9 @@ const Navegation = () => {
   }
 
   return (
-    <nav className="w-full py-2 md:px-4 flex items-center justify-between flex-col md:flex-row">
+    <nav className="w-full py-3 md:px-4 flex items-center justify-between flex-col md:flex-row border-b border-zinc-800/50">
       <div className="md:w-[30%] w-62.5 md:flex hidden items-center justify-center">
-        <img src={logo} alt="logo" className='w-[50%] aspect-11/5  object-cover pointer-events-none user-select-none' />
+        <img src={logo} alt="logo" className='w-[50%] aspect-11/5 object-cover pointer-events-none user-select-none' />
       </div>
 
       <NavegationOptionsDesktop setModalBoard={setModalBoard} getTotalBoards={getTotalBoards} showFavoritesModal={showFavoritesModal} />
@@ -51,11 +50,12 @@ const Navegation = () => {
 
 const NavegationOptionsDesktop = ({ setModalBoard, getTotalBoards, showFavoritesModal }) => {
   return (
-    <div className='w-[70%] h-dv hidden md:flex items-center gap-3'>
+    <div className='w-[70%] hidden md:flex items-center gap-2'>
       <Button variant="ghost" event={showFavoritesModal}>Favorites</Button>
       <Button variant="ghost" event={getTotalBoards}>Boards</Button>
       <Searcher />
-      <Button variant="ghost" event={setModalBoard}>Create Board</Button>
+      <div className="w-px h-6 bg-zinc-800 mx-1" />
+      <Button variant="secondary" event={setModalBoard}>New Board</Button>
     </div>
   )
 }
@@ -71,26 +71,23 @@ const NavegationOptionsMobile = ({createBoard, showBoards, showFavoriteBoards })
     setIsShown(false)
   }
 
-  const btn_menu = "transition[background] duration-500 p-2 w-full text-start text-sm flex items-center gap-2 cursor-pointer hover:bg-white/5"
+  const btn_menu = "transition-all duration-200 p-3 w-full text-start text-sm flex items-center gap-3 cursor-pointer hover:bg-zinc-800/50 text-zinc-400 hover:text-zinc-200"
 
   return (
-    <div className='flex gap-5 justify-between md:hidden w-full h-full'>
-      <Menu className='stroke-white ml-auto cursor-pointer ' onClick={toggleMenu}/>
-      {/* Submenu */}
-      <div className={`text-white border rounded-[6px_0px_0px_6px] border-white/20 transition[position] duration-500 ease-in-out fixed top-0 w-1/2 ${isShown ? "right-0" : "-right-200"} h-full z-10 bg-[#0d0d0d]`}>
-        <div className='p-2 border-b border-white/20'>
-          <button className={btn_menu}><User size={18}/>My Account</button>
+    <div className='flex gap-5 justify-between md:hidden w-full'>
+      <Menu className='stroke-zinc-400 ml-auto cursor-pointer hover:stroke-zinc-200 transition-colors' onClick={toggleMenu}/>
+      <div className={`text-zinc-200 border-l border-zinc-800 transition-all duration-300 ease-in-out fixed top-0 w-64 ${isShown ? "right-0" : "-right-72"} h-full z-10 bg-surface shadow-2xl shadow-black/50`}>
+        <div className='p-4 border-b border-zinc-800'>
+          <h2 className='text-sm font-display font-semibold text-zinc-400 uppercase tracking-wider'>Menu</h2>
         </div>
+        <button className={btn_menu}><User size={18}/>My Account</button>
         <button className={btn_menu} onClick={()=> selectOption(createBoard) } ><Plus size={18} />Create Board</button>
-        <button className={btn_menu} onClick={() => {}} ><Columns size={18} />Add a column</button>
-        <button className={btn_menu} onClick={() => selectOption(showBoards)} ><Grid3x3 size={18} />Select a new board</button>
-        <button className={btn_menu} onClick={() => selectOption(showFavoriteBoards)} ><Star size={18} />See Favorites</button>
+        <button className={btn_menu} onClick={() => selectOption(showBoards)} ><Grid3x3 size={18} />Select a board</button>
+        <button className={btn_menu} onClick={() => selectOption(showFavoriteBoards)} ><Star size={18} />Favorites</button>
         <button className={btn_menu} onClick={() => {}} ><Settings size={18} />Settings</button>
 
-        <X className='absolute bottom-2 right-2' onClick={toggleMenu}/>
+        <X className='absolute bottom-4 right-4 stroke-zinc-500 hover:stroke-zinc-300 cursor-pointer transition-colors' onClick={toggleMenu}/>
       </div>
-
-
     </div>
   )
 }
