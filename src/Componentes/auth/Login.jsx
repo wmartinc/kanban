@@ -2,6 +2,7 @@ import { Navigate, useNavigate } from "react-router";
 import Button from "../ui/shared/Button";
 import Input from "../ui/shared/Input";
 import { validateEmail } from "./verificationAuth";
+import { checkPassword } from "../../../utilities/format";
 import { useState } from "react";
 import { useEffect } from "react";
 import useAuthorization from "../../hooks/auth/useAuthorization";
@@ -16,6 +17,7 @@ const Login = () => {
   const navigate = useNavigate()
   const { loading, response, requestSession } = useAuthorization();
   const [isEmailValid, setIsEmailValid] = useState(true)
+  const [isPasswordValid, setIsPasswordValid] = useState(true)
   const [fillFields, setFillFields] = useState(false)
   const [userCredentials, setUserCredentials] = useState({
     email: '',
@@ -32,6 +34,7 @@ const Login = () => {
 
   const updateCredentials = (ev) => {
     if (!isEmailValid) setIsEmailValid(true)
+    if (!isPasswordValid) setIsPasswordValid(true)
     if (!ev?.target) return
 
     const fieldName = ev.target.name
@@ -55,6 +58,10 @@ const Login = () => {
     const isEmailValid = validateEmail(userCredentials.email)
     setIsEmailValid(isEmailValid)
     if (!isEmailValid) return;
+
+    const validPassword = checkPassword(userCredentials.password)
+    setIsPasswordValid(validPassword)
+    if (!validPassword) return
 
     requestSession(userCredentials.email, userCredentials.password)
   }
@@ -84,6 +91,9 @@ const Login = () => {
 
           <div>
             <Input nameField={"password"} changeEvent={updateCredentials} type="password">Enter your password</Input>
+            {
+              !isPasswordValid && <span className="text-rose-400 text-xs mt-1 block">The password must have 8-64 characters, an uppercase, a lowercase, a number and a special character</span>
+            }
           </div>
         </div>
         {

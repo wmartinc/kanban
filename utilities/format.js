@@ -4,16 +4,19 @@ const checkTitleBoard = (title) => {
   return false
 }
 
-const checkDescriptionBoard = (descripcion) => {
-  if(descripcion.length == 0) return true
+const checkDescriptionBoard = (description) => {
+  if(description.length == 0) return true
   const descriptionRegex = /^(?=.*[\p{L}\p{N}])[\p{L}\p{N} _\-?!.,:'¿¡]{1,100}$/u;
-  if(descripcion.match(descriptionRegex)) return true
+  if(description.match(descriptionRegex)) return true
   return false
 }
 
-const checkGeneralText = (text) => {
+const checkPassword = (password) => {
+  const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+=[\]{}|,.?~-])[A-Za-z\d!@#$%^&*()_+=[\]{}|,.?~-]{8,64}$/;
+  if(password.match(passwordRegex)) return true
+  return false
 }
 
 export {
-  checkDescriptionBoard, checkGeneralText, checkTitleBoard
+  checkDescriptionBoard, checkTitleBoard, checkPassword
 }

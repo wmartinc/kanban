@@ -34,7 +34,7 @@ const ShowBoards = () => {
   }, [fetched, boards, favorites])
 
   const goToBoard = () => { 
-    setProperty("main_board", selectedBoard)
+    setProperty("main_board", selectedBoard)  
     ioClient.emit('selectBoard', selectedBoard)
     updateModalStatus(false)
   }
@@ -47,7 +47,7 @@ const ShowBoards = () => {
         <LayoutDashboard className="size-5 text-purple-400" />
         <h1 className='text-lg font-display font-semibold text-zinc-100'>Your Boards</h1>
       </div>
-      <div className={`w-full ${loading ? "min-h-[16rem]": ""} grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto place-items-center pb-2`}>
+      <div className={`w-full ${loading ? "min- h-64": ""} grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto place-items-center pb-2`}>
         {
           loading && tasksToRender?.length == 0 ? <div className="col-span-full flex items-center h-full justify-center"><Spinner /></div> :
             (tasksToRender?.content?.length > 0 && !loading) ? tasksToRender?.content.map(board => (
