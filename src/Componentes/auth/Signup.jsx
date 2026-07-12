@@ -53,7 +53,7 @@ const Signup = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-base via-surface to-base">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-linear-to-br from-base via-surface to-base">
       <div className="w-full max-w-md border border-zinc-800 rounded-2xl shadow-xl shadow-black/30 p-8 bg-elevated">
         <div className="mb-8 text-center">
           <div className="inline-flex items-center justify-center size-12 rounded-xl bg-teal-500/10 mb-4">

@@ -25,3 +25,7 @@ dist-ssr
 .env
 .*
 ./*
+
+AGENTS.md
+opencode.json
+skills-lock.json
