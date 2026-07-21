@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import Spinner from "../ui/shared/Spinner";
 import TaskViewer from "./TaskViewer";
+import AddColumn from "./AddColumn";
 
 const BoardContent = ({ loadingBoard, responseBoard }) => {
   const [tarjetas, setTarjetas] = useState([])
@@ -26,9 +27,9 @@ const BoardContent = ({ loadingBoard, responseBoard }) => {
             <TaskViewer key={column} column={column} index={index} tasks={tasks} />
           ))
         }
+        <AddColumn key="addColumn" index={tarjetas?.length} />
       </section>
     </DragDropProvider>
   )
 }
-
 export default BoardContent;
