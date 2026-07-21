@@ -33,7 +33,6 @@ const Login = () => {
   useEffect(() => {
     if (!loading && response?.confirmation) {
       setGlobalUser(response.newUser)
-      console.log('entra aca', response)
       navigate('/home', { replace: true })
     } else if (!loading && !response?.confirmation && response) {
       setShowAdvise(true)
@@ -41,6 +40,7 @@ const Login = () => {
   }, [loading, response])
 
   const updateCredentials = (ev) => {
+    if (showAdvise) setShowAdvise(false)
     if (!isEmailValid) setIsEmailValid(true)
     if (!isPasswordValid) setIsPasswordValid(true)
     if (!ev?.target) return
@@ -69,14 +69,12 @@ const Login = () => {
     requestSession(userCredentials.email, userCredentials.password)
   }
 
-
   const Advise = memo(() => {
     return <div className="flex flex-col text-fuchsia-300 relative -translate-y-5 animation">
       <span>Something went wrong!</span>
       <span>Try again</span>
     </div>
   })
-
 
   return (
     (loadingSession && !responseSession) ? <Spinner /> :
