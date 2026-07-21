@@ -34,6 +34,7 @@ const useGetBoards = () => {
     setResponse(null)
     savingLoad(true)
     const boardsResponse = await getBoards();
+    console.log(boardsResponse)
     if(!boardsResponse) {
       setLoading(false)
       setResponse(false)

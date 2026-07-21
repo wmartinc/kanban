@@ -88,3 +88,9 @@ button {
 .checkbox:checked {
   border-color: #c084fc;
 }
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

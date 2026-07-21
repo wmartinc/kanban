@@ -16,7 +16,6 @@ const useCheckSession = () => {
       setResponse(confirmation)
       setInformation(content)
       setUser(content)
-      
       setLoading(false)
     })()
   }, [])

@@ -49,8 +49,8 @@ const ShowBoards = () => {
       </div>
       <div className={`w-full ${loading ? "min- h-64" : ""} grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto place-items-center pb-2 max-h-115 min-h-25`}>
         {
-          loading && tasksToRender?.length == 0 ? <div className="col-span-full flex items-center h-full justify-center"><Spinner /></div> :
-            (tasksToRender?.content?.length > 0 && !loading) ? tasksToRender?.content.map(board => (
+          loading ? <div className="col-span-full flex items-center h-full justify-center"><Spinner /></div> :
+            (tasksToRender?.content?.length > 0) ? tasksToRender?.content.map(board => (
               <BoardsView key={board.id} id={board.id} title={board.board_name} description={board.description} selectId={handleSelectBoard} boardSelected={selectedBoard} />
             )) : <p className="text-zinc-500 col-span-full text-sm">No boards yet</p>
         }

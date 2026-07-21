@@ -1,4 +1,5 @@
 const VITE_API = import.meta.env.VITE_BOARDS_ENDPOINT 
+import { ioClient } from "./socket";
 
 const getBoards = async () => {
   try {
@@ -19,7 +20,6 @@ const getBoards = async () => {
 const createNewBoard = async (VITE_API, boardInformation) => {
 
   const {boardName, description} = boardInformation
-  console.log(boardName, description)
 
   try {
     const responseApi = await fetch(`${VITE_API}/createBoard`, {
@@ -65,5 +65,12 @@ const getBoardContent = async (boardName) => {
   }
 }
 
+const addFavorite = async (boardId) => {
+  ioClient.emit("addFavorite", boardId)
+}
 
-export { getBoards, createNewBoard, getFavoritesBoards, getBoardContent }
+const removeFavorite = async (boardId) => {
+  ioClient.emit("removeFavorite", boardId)
+}
+
+export { getBoards, createNewBoard, getFavoritesBoards, getBoardContent, addFavorite, removeFavorite }

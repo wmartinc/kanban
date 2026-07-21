@@ -54,7 +54,6 @@ const Login = () => {
     })
   }
 
-
   const submitInformation = () => {
     if (userCredentials.email.trim() === "" || userCredentials.password.trim() === "") {
       setFillFields(true)
