@@ -11,7 +11,7 @@ const Button = ({
   const baseClasses =
     `inline-flex items-center hover:cursor-pointer 
     justify-center rounded-lg text-sm transition-all 
-    duration-200 focus:outline-none
+    duration-200
     active:scale-[0.97] select-none`;
 
   const variants = {

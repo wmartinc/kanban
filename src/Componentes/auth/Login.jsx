@@ -11,6 +11,7 @@ import useCheckSession from '../../hooks/auth/useCheckSesion'
 import Spinner from '../ui/shared/Spinner'
 import { LayoutDashboard } from "lucide-react";
 import { memo } from "react";
+import { useModals } from "../../store/store";
 
 const Login = () => {
   const { loading: loadingSession, response: responseSession } = useCheckSession()
@@ -25,6 +26,8 @@ const Login = () => {
     email: '',
     password: ''
   })
+
+  const updateModalStatus = useModals(state => state.updateModalStatus)
 
   const signup = () => {
     return navigate('/signup', { replace: true })
@@ -75,6 +78,10 @@ const Login = () => {
       <span>Try again</span>
     </div>
   })
+  
+  const showModalResetPassword = () => {
+    updateModalStatus(true, "changePassword")
+  }
 
   return (
     (loadingSession && !responseSession) ? <Spinner /> :
@@ -117,7 +124,7 @@ const Login = () => {
               <Button variant="primary" event={submitInformation} className="flex-1">Log in</Button>
             </div>
             <div className="mt-4 text-center">
-              <button className="text-zinc-500 hover:text-zinc-400 text-sm transition-colors">
+              <button className="text-zinc-500 hover:text-zinc-400 text-sm transition-colors" onClick={showModalResetPassword} >
                 Forgot password?
               </button>
             </div>
