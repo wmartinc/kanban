@@ -1,11 +1,19 @@
 import { Star } from "lucide-react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { addFavorite, removeFavorite } from "../../../controllers/boards.controller";
+import { addFavorite, removeFavorite, checkFavorite} from "../../../controllers/boards.controller";
 
-const AddFavorites = ({boardId, isFavorite}) => {
-  const [isSelected, setIsSelected] = useState(isFavorite)
-  
+
+const AddFavorites = ({boardId}) => {
+  const [isSelected, setIsSelected] = useState(false)
+
+  useEffect(() => {
+    (async () => {
+      const isFavorite = await checkFavorite(boardId)
+      setIsSelected(isFavorite)
+    })()
+  }, [])
+
   const handleAddFavorites = () => {
     if(isSelected){
       removeFavorite(boardId)

@@ -65,6 +65,41 @@ const getBoardContent = async (boardName) => {
   }
 }
 
+const checkFavorite = async (boardId) => {
+  try {
+    const responseApi = await fetch(`${VITE_API}/checkFavorite/${boardId}`, {
+      method: "GET",
+      credentials: "include"
+    })
+
+    const dataApi = await responseApi.json();
+    if(!dataApi.confirmation) return false
+    return dataApi.isFavorite
+
+  } catch (error) {
+    console.log('Error during the process:  ', error.message)
+  }
+}
+
+const createNewColumn = async (columnName) => {
+  try {
+    const responseApi = await fetch(`${VITE_API}/createColumn`, {
+      method: "POST",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({columnName})
+    })
+
+    const dataApi = await responseApi.json();
+    console.log(dataApi)
+    if(!dataApi.confirmation) return false
+    return dataApi.content
+  } catch (error) {
+    console.log('Error during the process:  ', error.message)
+    console.log(error.message)
+  }
+} 
+
 const addFavorite = async (boardId) => {
   ioClient.emit("addFavorite", boardId)
 }
@@ -73,4 +108,4 @@ const removeFavorite = async (boardId) => {
   ioClient.emit("removeFavorite", boardId)
 }
 
-export { getBoards, createNewBoard, getFavoritesBoards, getBoardContent, addFavorite, removeFavorite }
+export { getBoards, createNewBoard, getFavoritesBoards, getBoardContent, addFavorite, removeFavorite, checkFavorite, createNewColumn }

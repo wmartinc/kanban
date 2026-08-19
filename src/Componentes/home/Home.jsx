@@ -25,17 +25,6 @@ const Home = () => {
     { keepPreviousData: true }
   )
 
-  useEffect(() => {
-    if (!globalUser) return
-    ioClient.emit('checkFavorite', { board_id: globalUser?.main_board?.id, user_id: globalUser?.id });
-    ioClient.on('checkFavoriteResponse', (response) => {
-      setIsFavorite(response)
-    })
-    return () => {
-      ioClient.off('checkFavoritesResponse')
-    }
-  }, [globalUser])
-
   return (
     (loading) ? <Spinner /> :
       (!response) ? <Navigate to={"/"} /> :
@@ -46,16 +35,15 @@ const Home = () => {
               {(!loadingBoard && globalUser?.main_board) && (
                 <div className="py-4 px-1 flex gap-2">
                   <h1 className="text-xl font-display font-semibold text-zinc-100 capitalize">{globalUser?.main_board?.title}</h1>
-                  <AddFavorites boardId={globalUser?.main_board?.id} isFavorite={isFavorite} />
+                  <AddFavorites boardId={globalUser?.main_board?.id} />
                 </div>
               )}
               {
                 (loadingBoard && globalUser?.main_board) ? <Spinner /> :
                   (!globalUser?.main_board) ? <AddContent btnText={"Select a new board"} openModal={"showBoards"}>There are no board selected.</AddContent> :
-                    (responseBoard?.length == 0) ? <AddContent btnText={"Create a column"} openModal={"addTask"}>There are no columns created.</AddContent> :
+                    (responseBoard?.length == 0) ? <AddContent btnText={"Create a column"} openModal={"addColumn"}>There are no columns created.</AddContent> :
                       <BoardContent loadingBoard={loadingBoard} responseBoard={responseBoard} />
               }
-
             </section>
           </div>
         </main>
