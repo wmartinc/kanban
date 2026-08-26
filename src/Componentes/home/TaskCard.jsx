@@ -1,4 +1,3 @@
-import { useSortable } from "@dnd-kit/react/sortable";
 import { Ellipsis } from "lucide-react";
 import { useState } from "react";
 import { useModals } from "../../store/store";
@@ -6,14 +5,6 @@ import { useModals } from "../../store/store";
 const TaskCard = ({ information, index, column }) => {
   const [mouseHoverCard, setMouseHoverCard] = useState(false)
   const [showSubMenu, setShowSubMenu] = useState(false)
-  
-  const { ref, isDragging } = useSortable({
-    id: information.id,
-    index: index,
-    group: column,
-    accept: "item",
-    type: "item"
-  })
 
   const mouseIn = () => setMouseHoverCard(true)
   const mouseOut = () => setMouseHoverCard(false)
@@ -25,13 +16,10 @@ const TaskCard = ({ information, index, column }) => {
 
   return (
     <div
-      ref={ref}
       className={`rounded-lg border cursor-pointer flex flex-col select-none transition-all duration-200
-      ${isDragging 
-        ? 'border-purple-500/40 bg-elevated shadow-lg shadow-purple-500/5' 
-        : showSubMenu 
-          ? 'border-zinc-600 bg-elevated' 
-          : 'border-zinc-800 bg-elevated/60 hover:border-zinc-600 hover:bg-elevated'}`}
+      ${showSubMenu 
+        ? 'border-zinc-600 bg-elevated' 
+        : 'border-zinc-800 bg-elevated/60 hover:border-zinc-600 hover:bg-elevated'}`}
       onMouseEnter={mouseIn}
       onMouseLeave={mouseOut}
     >
