@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { getBoardContent, getBoards } from "../controllers/boards.controller";
-import { useCallback } from "react";
 import { useBoards } from "../store/useBoards";
 
 const useGetBoards = () => {

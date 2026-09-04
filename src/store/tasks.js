@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 
-const useTasks = create((set) => ({
-  tasks: []
+export const useTasks = create((set) => ({
+  tasks: [],
+  setTasks: (newTasks) => set({ tasks: newTasks})
 }))

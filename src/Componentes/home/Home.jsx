@@ -8,16 +8,12 @@ import { getBoardContent } from "../../controllers/boards.controller";
 import AddContent from "./AddContent";
 import BoardContent from "./BoardContent";
 import AddFavorites from "../ui/shared/AddFavorites";
-import { useEffect } from "react";
-import { ioClient } from "../../controllers/socket";
-import { useState } from "react";
 
 const fetcher = (title) => getBoardContent(title)
 
 const Home = () => {
   const globalUser = useUser(state => state.user)
   const { loading, response } = useCheckSession()
-  const [isFavorite, setIsFavorite] = useState(false)
   const boardName = globalUser?.main_board?.title
   const { data: responseBoard, isLoading: loadingBoard } = useSWR(
     boardName || null,
