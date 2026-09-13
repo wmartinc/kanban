@@ -12,19 +12,34 @@ const useTask = () => {
     try {
       const data = await createTask(task, columnId);
       setResponse(data);
-      return data;
     } catch (error) {
-      setResponse({ error: error.message });
+      setResponse(false);
       throw error;
     } finally {
       setIsLoading(false);
     }
   };
 
+  const sendRemoveTask = async () => {
+    setIsLoading(true);
+    setResponse(null)
+
+    try {
+      const data = await removeTask(task, columnId);
+      setResponse(data);
+    } catch (error) {
+      setResponse(false);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return {
     isLoading,
     response,
-    sendCreateTask
+    sendCreateTask,
+    sendRemoveTask
   };
 };
 

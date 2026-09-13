@@ -8,6 +8,7 @@ import FavoritesModal from "./FavoritesModal";
 import ChangeCardModal from "./ChangeCardModal";
 import AddColumnModal from "./AddColumnModal";
 import ResetPassword from "./ResetPassword";
+import TaskDetailsModal from "./TaskDetailsModal";
 
 const ModalContainer = ({shown}) => {
   const modalAddTaskOpen = useModals((state) => state.modals.addTask)
@@ -18,6 +19,7 @@ const ModalContainer = ({shown}) => {
   const changeTask = useModals(state => state.modals.changeTask)
   const addColumn = useModals(state => state.modals.addColumn)
   const changePassword = useModals(state => state.modals.changePassword)
+  const showTask = useModals(state => state.modals.showTask)
 
   const hideModalContainer = () => {
     updateModalStatus(false)
@@ -41,6 +43,7 @@ const ModalContainer = ({shown}) => {
           {changeTask && <ChangeCardModal />}
           {addColumn && <AddColumnModal />}
           {changePassword && <ResetPassword />}
+          {showTask && <TaskDetailsModal />}
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

@@ -9,11 +9,11 @@ const TaskViewer = ({ column, index, tasks, columnId }) => {
   const updateModalStatus = useModals(state => state.updateModalStatus)
   const saveColumnId = useColumnsStore(state => state.saveColumnSelected)
   const globalTasks = useTasks(state => state.tasks)
+  
 
   const addTask = () => {
-    console.log(globalTasks)
-    saveColumnId(columnId)  
-    // updateModalStatus(true, "addTask")
+    saveColumnId(columnId)
+    updateModalStatus(true, "addTask")
   }
 
   return (
@@ -26,7 +26,7 @@ const TaskViewer = ({ column, index, tasks, columnId }) => {
       <h1 className="text-center text-sm font-display font-semibold text-zinc-300 pt-3 pb-1 px-4">{column}</h1>
       <section className="flex flex-col w-full gap-2 p-3 flex-1">
         {tasks?.map((data, ind) => (
-          <TaskCard key={data.id} information={data} index={ind} column={column} />
+          <TaskCard key={data.id} information={data} index={ind} column={column} columnId={columnId} />
         ))}
         <Button variant="add" className="w-full mt-1 text-xs" event={addTask}>
           <Plus className="size-3.5 mr-1" /> Add a card
