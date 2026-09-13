@@ -2,6 +2,7 @@ import { Ellipsis } from "lucide-react";
 import { useState } from "react";
 import { useModals } from "../../store/store";
 import { useTasks } from "../../store/tasks";
+import useTask from "../../hooks/tasks/useTask";
 
 const TaskCard = ({ information, index, column, columnId }) => {
   const [mouseHoverCard, setMouseHoverCard] = useState(false)
@@ -59,6 +60,7 @@ const MenuToggle = ({ isVisible, onToggle }) => {
 const SubMenu = ({ isVisible, taskId, columnId }) => {
   const modifyStatusModal = useModals((state) => state.updateModalStatus);
   const deleteTask = useTasks(state => state.removeTask)
+  const { isLoading, response, sendRemoveTask } = useTask();
   
   if (!isVisible) return null
 
@@ -68,7 +70,7 @@ const SubMenu = ({ isVisible, taskId, columnId }) => {
 
   const removeTask = () => {
     deleteTask(columnId, taskId)
-
+    sendRemoveTask(taskId, columnId)
   }
 
   return (

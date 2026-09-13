@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createTask } from "../../controllers/tasks.controller";
+import { createTask, removeTask } from "../../controllers/tasks.controller";
 
 const useTask = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,12 +20,12 @@ const useTask = () => {
     }
   };
 
-  const sendRemoveTask = async () => {
+  const sendRemoveTask = async (taskId, columnId) => {
     setIsLoading(true);
     setResponse(null)
 
     try {
-      const data = await removeTask(task, columnId);
+      const data = await removeTask(taskId, columnId);
       setResponse(data);
     } catch (error) {
       setResponse(false);

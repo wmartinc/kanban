@@ -20,14 +20,14 @@ const createTask = async (task, columnId) => {
 }
 
 
-const removeTask = async (task, columnId) => {
+const removeTask = async (taskId, columnId) => {
   
   try {
     const responseApi = await fetch(`${VITE_API}`, {
       method: "DELETE",
       credentials: "include",
       headers: {"Content-Type": "Application/json"},
-      body: JSON.stringify({task, columnId})
+      body: JSON.stringify({taskId, columnId})
     })
   
     const dataApi = await responseApi.json()
