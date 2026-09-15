@@ -14,7 +14,7 @@ const BoardContent = ({ loadingBoard, responseBoard }) => {
   }, [loadingBoard, responseBoard])
 
   return (
-    <section className="w-full h-full overflow-x-auto flex-row py-2 flex gap-5">
+    <section className="w-full h-full overflow-x-auto flex-row py-2 flex gap-5 ">
       {
         loadingBoard && globalTasks?.length === 0 ? <Spinner /> : Object.entries(globalTasks)?.map(([column,{tasks, columnId}] , index) => (
           <TaskViewer key={column} column={column} index={index} tasks={tasks} columnId={columnId}/>

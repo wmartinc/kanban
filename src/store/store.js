@@ -14,7 +14,8 @@ export const useModals = create((set) => ({
     changeTask: false,
     addColumn: false,
     changePassword: false,
-    showTask: false
+    showTask: false,
+    confirmation: false
   },
   // modalContainer explicitly because it is one of the existing properties already.
   updateModalStatus: (status, modalName = "") => set((state) => {

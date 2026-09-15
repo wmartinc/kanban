@@ -4,7 +4,7 @@ import { useModals } from "../../store/store";
 import { useTasks } from "../../store/tasks";
 import useTask from "../../hooks/tasks/useTask";
 
-const TaskCard = ({ information, index, column, columnId }) => {
+const TaskCard = ({ information, columnId }) => {
   const [mouseHoverCard, setMouseHoverCard] = useState(false)
   const [showSubMenu, setShowSubMenu] = useState(false)
   

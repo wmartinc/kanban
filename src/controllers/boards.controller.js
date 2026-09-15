@@ -1,4 +1,4 @@
-const VITE_API = import.meta.env.VITE_BOARDS_ENDPOINT 
+const VITE_API = import.meta.env.VITE_BOARDS_ENDPOINT
 import { ioClient } from "./socket";
 
 const getBoards = async () => {
@@ -9,7 +9,7 @@ const getBoards = async () => {
     })
 
     const dataApi = await respApi.json();
-    
+
     return dataApi;
   } catch (error) {
     console.log('Error fetching boards:', error.message);
@@ -19,14 +19,14 @@ const getBoards = async () => {
 
 const createNewBoard = async (VITE_API, boardInformation) => {
 
-  const {boardName, description} = boardInformation
+  const { boardName, description } = boardInformation
 
   try {
     const responseApi = await fetch(`${VITE_API}/createBoard`, {
       method: "POST",
       credentials: "include",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({boardName, description})
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ boardName, description })
     })
 
     const respCreation = await responseApi.json();
@@ -44,7 +44,7 @@ const getFavoritesBoards = async () => {
       credentials: "include"
     })
     const dataApi = await responseApi.json();
-    if(!dataApi.confirmation) return false
+    if (!dataApi.confirmation) return false
     return dataApi
   } catch (error) {
     console.log('Error during the process:  ', error.message)
@@ -55,10 +55,10 @@ const getBoardContent = async (boardName) => {
   try {
     const responseApi = await fetch(`${VITE_API}/board/${boardName}`, {
       method: "GET",
-      credentials: "include"  
+      credentials: "include"
     })
     const dataApi = await responseApi.json();
-    if(!dataApi.confirmation) return false
+    if (!dataApi.confirmation) return false
     return dataApi.boardInformation
   } catch (error) {
     console.log('Error during the process:  ', error.message)
@@ -73,7 +73,7 @@ const checkFavorite = async (boardId) => {
     })
 
     const dataApi = await responseApi.json();
-    if(!dataApi.confirmation) return false
+    if (!dataApi.confirmation) return false
     return dataApi.isFavorite
 
   } catch (error) {
@@ -86,19 +86,19 @@ const createNewColumn = async (columnName) => {
     const responseApi = await fetch(`${VITE_API}/createColumn`, {
       method: "POST",
       credentials: "include",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({columnName})
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ columnName })
     })
 
     const dataApi = await responseApi.json();
     console.log(dataApi)
-    if(!dataApi.confirmation) return false
+    if (!dataApi.confirmation) return false
     return dataApi.content
   } catch (error) {
     console.log('Error during the process:  ', error.message)
     console.log(error.message)
   }
-} 
+}
 
 const addFavorite = async (boardId) => {
   ioClient.emit("addFavorite", boardId)
@@ -108,4 +108,16 @@ const removeFavorite = async (boardId) => {
   ioClient.emit("removeFavorite", boardId)
 }
 
-export { getBoards, createNewBoard, getFavoritesBoards, getBoardContent, addFavorite, removeFavorite, checkFavorite, createNewColumn }
+const changeColumnName = (columnInformation) => {
+  ioClient.emit("changeColumnName", columnInformation)
+}
+
+const removeColumn = (columnId) => {
+  ioClient.emit('deleteColumn', columnId)
+}
+
+export {
+  getBoards, createNewBoard, getFavoritesBoards,
+  getBoardContent, addFavorite, removeFavorite,
+  checkFavorite, createNewColumn, changeColumnName, removeColumn
+}
