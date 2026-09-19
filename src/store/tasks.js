@@ -1,3 +1,5 @@
+// We will need to cha  nge the task name for columns, because columns contains tasks.
+
 import { create } from 'zustand'
 
 export const useTasks = create((set) => ({
@@ -29,6 +31,23 @@ export const useTasks = create((set) => ({
       }
     })
     return { tasks: _tasks }
-  })
+  }),
 
+  removeColumn: (id) => set(state => {
+    console.log(state.tasks)
+    const _tasks = {...state.tasks}
+    delete _tasks[id]
+    Object.keys(_tasks).forEach(key => {
+      if (_tasks[key].columnId === id) delete _tasks[key]
+    })
+
+    return { tasks: _tasks }
+  }),
+
+  
+  // This must be migrated to the columns file.
+  addColumn: (column) => {
+    const columnBase = {[column.title]: {tasks: [], columnId: column.id}}
+    return set((state) => ({tasks: {...state.tasks, ...columnBase}}))
+  }
 }))

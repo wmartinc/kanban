@@ -5,10 +5,13 @@ import Input from "../ui/shared/Input";
 import TextArea from "../ui/shared/TextArea";
 import { createNewBoard } from "../../controllers/boards.controller";
 import { checkDescriptionBoard, checkTitleBoard } from "../../../utilities/format";
+
 import AlertDialog from "../ui/shared/AlertDialog";
+import GlobalSpinner from "../ui/shared/GlobalSpinner";
 const BOARDS_ENDPOINT = import.meta.env.VITE_BOARDS_ENDPOINT
 
 const CreateBoardModal = () => {
+  const [creatingBoard, setCreatingBoard] = useState(false)
   const [isNewCreated, setIsNewCreated] = useState(false)
   const [boardInformation, setBoardInformation] = useState({
     boardName: "",
@@ -49,10 +52,11 @@ const CreateBoardModal = () => {
 
     checkFieldInformation("boardName", isTitleValid)
     checkFieldInformation("description", isDescriptionValid)
-
     if (!isTitleValid || !isDescriptionValid) return;
+    setCreatingBoard(true)
     const isBoardCreated = await createNewBoard(BOARDS_ENDPOINT, boardInformation)
     setIsNewCreated(isBoardCreated);
+    setCreatingBoard(false)
     closeModal()
     setTimeout(() => {
       setIsNewCreated(false)
@@ -97,6 +101,9 @@ const CreateBoardModal = () => {
       </div>
       {
         isNewCreated && <AlertDialog variant={"advise"} title={"Done!"} description={"Board created successfully."} />
+      }
+      {
+        creatingBoard && <GlobalSpinner />
       }
     </div>
   )

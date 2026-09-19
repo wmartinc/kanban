@@ -7,6 +7,7 @@ import { EllipsisVertical } from "lucide-react";
 import { useState } from "react";
 import useSelected from "../../store/useSelected";
 import { removeColumn } from "../../controllers/boards.controller";
+import { useTasks } from "../../store/tasks";
 
 const TaskViewer = ({ column, index, tasks, columnId }) => {
   const updateModalStatus = useModals(state => state.updateModalStatus)
@@ -16,6 +17,7 @@ const TaskViewer = ({ column, index, tasks, columnId }) => {
   const [editColumn, setEditColumn] = useState(false)
   const setColumnSelected = useSelected(state => state.setColumnSelected)
   const [newColumnName, setNewColumnName] = useState('')
+  const removeColumnStore = useTasks(state => state.removeColumn)
 
   const addTask = () => {
     saveColumnId(columnId)
@@ -36,11 +38,12 @@ const TaskViewer = ({ column, index, tasks, columnId }) => {
   }
 
   const renameColumn = () => {
-    openEditColumn()
+    openEditColumn()  
     setShowSubMenu(false)
   }
 
   const deleteColumn = () => {
+    removeColumnStore(columnId)
     removeColumn(columnId)
     setShowSubMenu(false)
   }

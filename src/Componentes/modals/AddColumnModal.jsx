@@ -3,17 +3,24 @@ import Button from "../ui/shared/Button"
 import { useModals } from "../../store/store";
 import { useState } from "react";
 import { createNewColumn } from "../../controllers/boards.controller";
+import { useTasks } from "../../store/tasks";
 
 const AddColumnModal = () => {
   const updateModalStatus = useModals(state => state.updateModalStatus)  
   const [columnName, setColumnName] = useState("")
+  const addColumn = useTasks(state => state.addColumn)
 
   const hideModal = () => {
     updateModalStatus(false, "addColumn")
   }
 
   const createColumn = async () => {
-    await createNewColumn(columnName)
+    const column = await createNewColumn(columnName)
+    console.log(column)
+    if (!column) return
+    const newColumn = Array.isArray(column) ? column[0] : column
+    addColumn(newColumn)
+    // hideModal()
   }
 
   const updateColumnName = (ev) => {

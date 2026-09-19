@@ -6,11 +6,11 @@ import { useTasks } from "../../store/tasks";
 
 const BoardContent = ({ loadingBoard, responseBoard }) => {
   const setGlobalTasks = useTasks(state => state.setTasks);
-  const globalTasks = useTasks(state => state.tasks);
+  const globalTasks = useTasks(state => state.tasks);  // this name needs must be changed.
 
   useEffect(() => {
     if (!responseBoard) return
-    setGlobalTasks(responseBoard);  
+    setGlobalTasks(responseBoard);
   }, [loadingBoard, responseBoard])
 
   return (
