@@ -8,18 +8,40 @@ import { getBoardContent } from "../../controllers/boards.controller";
 import AddContent from "./AddContent";
 import BoardContent from "./BoardContent";
 import AddFavorites from "../ui/shared/AddFavorites";
+import { useEffect } from "react";
+import { useTasks } from "../../store/tasks";
+import useAlerts from "../../store/useAlerts";
+import Alert from "../alerts/Alert";
 
 const fetcher = (title) => getBoardContent(title)
 
 const Home = () => {
   const globalUser = useUser(state => state.user)
   const { loading, response } = useCheckSession()
-  const boardName = globalUser?.main_board?.title
+  const setGlobalTasks = useTasks(state => state.setTasks)
+  const globlasTasks = useTasks(state => state.tasks)
+  const totalColumns = Array.isArray(globlasTasks)
+    ? globlasTasks.length
+    : Object.keys(globlasTasks ?? {}).length
+  const boardName = globalUser?.main_board?.id
+  const alertType = useAlerts(state => state.alertType)
+  const setAlert = useAlerts(state => state.setAlert)
   const { data: responseBoard, isLoading: loadingBoard } = useSWR(
     boardName || null,
     fetcher,
     { keepPreviousData: true }
   )
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAlert()
+    }, 2000)
+  }, [alertType])
+
+  useEffect(() => {
+    if (!responseBoard) return
+    setGlobalTasks(responseBoard);
+  }, [loadingBoard, responseBoard])
 
   return (
     (loading) ? <Spinner /> :
@@ -37,11 +59,13 @@ const Home = () => {
               {
                 (loadingBoard && globalUser?.main_board) ? <Spinner /> :
                   (!globalUser?.main_board) ? <AddContent btnText={"Select a new board"} openModal={"showBoards"}>There are no board selected.</AddContent> :
-                    (responseBoard?.length == 0) ? <AddContent btnText={"Create a column"} openModal={"addColumn"}>There are no columns created.</AddContent> :
-                      <BoardContent loadingBoard={loadingBoard} responseBoard={responseBoard} />
+                    (totalColumns === 0) ? <AddContent btnText={"Create a column"} openModal={"addColumn"}>There are no columns created.</AddContent> :
+                      <BoardContent loadingBoard={loadingBoard} />
               }
             </section>
           </div>
+          {alertType === "error" && <Alert type="error" />}
+          {alertType === "success" && <Alert type="success" />}
         </main>
   )
 }

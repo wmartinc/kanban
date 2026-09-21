@@ -64,7 +64,7 @@ const ResetPassword = () => {
   const [email, setEmail] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [stage, setStage] = useState("email");
-  const [updateMessage, setUpdateMessage] = useState("");
+  const [updateMessage] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState(true);
@@ -115,7 +115,6 @@ const ResetPassword = () => {
   };
 
   const updatePassword = async () => {
-    console.log('password: ', password, 'confirmPassword: ', confirmPassword)
     await changePassword(password, confirmPassword)
   };
 
@@ -129,7 +128,6 @@ const ResetPassword = () => {
     setPasswordsMatch(match);
 
     if (!validPassword || !match) return;
-    console.log('entra aca')
     updatePassword();
   };
 

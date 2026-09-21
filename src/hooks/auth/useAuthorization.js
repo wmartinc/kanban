@@ -13,8 +13,7 @@ const useAuthorization = () => {
       setLoading(false)
       setResponse(respApi);
     } catch (error) {
-      setError(error.message);
-      console.log('Error getting board:', error.message); 
+      console.log('Error getting board:', error.message);
     }
   }
 

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useEffect } from "react"
 import { useRef } from "react"
 
@@ -10,7 +9,7 @@ const OtpEntry = ({ saveOtp }) => {1
     otpReference.current.focus()
   }, [otpReference])
 
-  const blurAction = (e) => {
+  const blurAction = () => {
     otpReference.current.focus()
   }
 

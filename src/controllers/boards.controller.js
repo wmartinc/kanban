@@ -51,9 +51,9 @@ const getFavoritesBoards = async () => {
   }
 }
 
-const getBoardContent = async (boardName) => {
+const getBoardContent = async (boardId) => {
   try {
-    const responseApi = await fetch(`${VITE_API}/board/${boardName}`, {
+    const responseApi = await fetch(`${VITE_API}/board/${boardId}`, {
       method: "GET",
       credentials: "include"
     })
@@ -81,17 +81,16 @@ const checkFavorite = async (boardId) => {
   }
 }
 
-const createNewColumn = async (columnName) => {
+const createNewColumn = async (columnName, currentBoard) => {
   try {
     const responseApi = await fetch(`${VITE_API}/createColumn`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ columnName })
+      body: JSON.stringify({ columnName, boardId: currentBoard?.id })
     })
 
     const dataApi = await responseApi.json();
-    console.log(dataApi)
     if (!dataApi.confirmation) return false
     return dataApi.content
   } catch (error) {

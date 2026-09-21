@@ -7,9 +7,10 @@ import useTask from "../../hooks/tasks/useTask";
 import { useState } from "react";
 import { useTasks } from "../../store/tasks";
 import GlobalSpinner from "../ui/shared/GlobalSpinner";
-import { useEffect } from "react";
+import useAlerts from "../../store/useAlerts";
 
 const AddTaskModal = () => {
+  const setAlert = useAlerts(state => state.setAlert)
   const modifyStatusModal = useModals((state) => state.updateModalStatus);
   const [taskInfo, setTaskInfo] = useState({
     title: "",
@@ -17,16 +18,17 @@ const AddTaskModal = () => {
   })
   const addNewOne = useTasks(state => state.addTask)
   const columnIdSelected = useColumnsStore(state => state.columnSelected)
-  const { isLoading, response, sendCreateTask } = useTask();
+  const { isLoading, sendCreateTask } = useTask();
 
   const closeModal = () => {
     modifyStatusModal(false)
   }
 
   const createTask = async () => {
-    console.log('entra para crear la task')
-    addNewOne(columnIdSelected, taskInfo)
-    await sendCreateTask(taskInfo, columnIdSelected)
+    const task = await sendCreateTask(taskInfo, columnIdSelected)
+    addNewOne(columnIdSelected, task)
+    if(task) setAlert("success");
+    if(!task) setAlert("error");
   }
 
   const onInformationChange = (ev) => {
@@ -38,10 +40,6 @@ const AddTaskModal = () => {
     })
   }
 
-  useEffect(() => {
-
-  }, [])
-
   return (
     <section className="w-[90%] max-w-lg bg-elevated border border-zinc-800 fixed top-1/2 left-1/2 -translate-x-1/2 
     -translate-y-1/2 shadow-xl shadow-black/30 p-6 rounded-2xl flex flex-col gap-5">
@@ -51,8 +49,6 @@ const AddTaskModal = () => {
         <TextArea fieldName="description" changeEvent={onInformationChange} />
       </div>
       {isLoading && <GlobalSpinner />}
-      {response === false && <span className="text-red-600 text-sm text-center">Something went wrong</span>}
-      {response === true && <span className="text-green-600 text-sm text-center">Task created successfully</span>}
       <div className="flex justify-end gap-3">
         <Button variant="ghost" event={closeModal}>Cancel</Button>
         <Button variant="primary" event={createTask} >Add Task</Button>

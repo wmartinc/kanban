@@ -4,23 +4,28 @@ import { useModals } from "../../store/store";
 import { useState } from "react";
 import { createNewColumn } from "../../controllers/boards.controller";
 import { useTasks } from "../../store/tasks";
+import useAlerts from "../../store/useAlerts";
+import useUser from "../../store/useUser";
 
 const AddColumnModal = () => {
-  const updateModalStatus = useModals(state => state.updateModalStatus)  
+  const updateModalStatus = useModals(state => state.updateModalStatus)
+  const setAlert = useAlerts(state => state.setAlert)
   const [columnName, setColumnName] = useState("")
   const addColumn = useTasks(state => state.addColumn)
-
+  const currentBoard = useUser(state => state.user?.main_board)
   const hideModal = () => {
     updateModalStatus(false, "addColumn")
   }
 
   const createColumn = async () => {
-    const column = await createNewColumn(columnName)
-    console.log(column)
-    if (!column) return
-    const newColumn = Array.isArray(column) ? column[0] : column
-    addColumn(newColumn)
-    // hideModal()
+    const column = await createNewColumn(columnName, currentBoard)
+    if (column) {
+      addColumn(column[0])
+      setAlert("success")
+      hideModal()
+    } else {
+      setAlert("error")
+    }
   }
 
   const updateColumnName = (ev) => {

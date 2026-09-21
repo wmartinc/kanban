@@ -1,11 +1,10 @@
 import logo from '../../../assets/logoo.png';
 import { useModals } from '@Store/store';
 import Button from '../../ui/shared/Button';
-import Searcher from '../shared/Searcher';
 import useGetBoards from '../../../hooks/useGetBoards';
 import { useEffect } from 'react';
 import { useBoards } from '../../../store/useBoards';
-import { Menu, User, Plus, Grid3x3, Star, Settings } from 'lucide-react';
+import { Menu, User, Plus, Grid3x3, Star } from 'lucide-react';
 import { useState } from 'react';
 import { X } from 'lucide-react';
 import useGetFavoriteBoards from '../../../hooks/useGetFavoriteBoards';
@@ -38,7 +37,7 @@ const Navegation = () => {
 
   return (
     <nav className="w-full py-3 md:px-4 flex items-center justify-between flex-col md:flex-row border-b border-zinc-800/50">
-      <div className="md:w-[30%] w-62.5 md:flex hidden items-center justify-center">
+      <div className="md:w-[30%] w-62.5 top-0 absolute lg:static flex items-center justify-center">
         <img src={logo} alt="logo" className='w-[50%] aspect-11/5 object-cover pointer-events-none user-select-none' />
       </div>
 
@@ -50,10 +49,9 @@ const Navegation = () => {
 
 const NavegationOptionsDesktop = ({ setModalBoard, getTotalBoards, showFavoritesModal }) => {
   return (
-    <div className='w-[70%] hidden md:flex items-center gap-2'>
+    <div className='w-full hidden md:flex justify-end gap-2'>
       <Button variant="ghost" event={showFavoritesModal}>Favorites</Button>
       <Button variant="ghost" event={getTotalBoards}>Boards</Button>
-      <Searcher />
       <div className="w-px h-6 bg-zinc-800 mx-1" />
       <Button variant="secondary" event={setModalBoard}>New Board</Button>
     </div>
@@ -84,7 +82,6 @@ const NavegationOptionsMobile = ({createBoard, showBoards, showFavoriteBoards })
         <button className={btn_menu} onClick={()=> selectOption(createBoard) } ><Plus size={18} />Create Board</button>
         <button className={btn_menu} onClick={() => selectOption(showBoards)} ><Grid3x3 size={18} />Select a board</button>
         <button className={btn_menu} onClick={() => selectOption(showFavoriteBoards)} ><Star size={18} />Favorites</button>
-        <button className={btn_menu} onClick={() => {}} ><Settings size={18} />Settings</button>
 
         <X className='absolute bottom-4 right-4 stroke-zinc-500 hover:stroke-zinc-300 cursor-pointer transition-colors' onClick={toggleMenu}/>
       </div>

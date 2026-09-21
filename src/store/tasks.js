@@ -12,13 +12,11 @@ export const useTasks = create((set) => ({
   
   addTask: (column, newTask) => set(state => {
     const _tasks = {...state.tasks};
-    
     Object.values(_tasks).forEach(({columnId, tasks:__tasks}) => {
       if(columnId === column) {
         __tasks.push(newTask)
       }
     })
-    console.log(_tasks)
     return { tasks: _tasks}
   }),
 
@@ -34,7 +32,6 @@ export const useTasks = create((set) => ({
   }),
 
   removeColumn: (id) => set(state => {
-    console.log(state.tasks)
     const _tasks = {...state.tasks}
     delete _tasks[id]
     Object.keys(_tasks).forEach(key => {
@@ -47,7 +44,7 @@ export const useTasks = create((set) => ({
   
   // This must be migrated to the columns file.
   addColumn: (column) => {
-    const columnBase = {[column.title]: {tasks: [], columnId: column.id}}
+    const columnBase = {[column.id]: {title: column.title, tasks: [], columnId: column.id}}
     return set((state) => ({tasks: {...state.tasks, ...columnBase}}))
   }
 }))

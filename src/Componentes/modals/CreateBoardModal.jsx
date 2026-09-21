@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useModals } from "../../store/store";
+import useAlerts from "../../store/useAlerts";
 import Button from "../ui/shared/Button";
 import Input from "../ui/shared/Input";
 import TextArea from "../ui/shared/TextArea";
@@ -25,6 +26,7 @@ const CreateBoardModal = () => {
 
   const [descriptionField, setDescriptionField] = useState(false)
   const modifyStatusModal = useModals((state) => state.updateModalStatus);
+  const setAlert = useAlerts(state => state.setAlert)
 
   const closeModal = () => {
     modifyStatusModal(false)
@@ -57,6 +59,8 @@ const CreateBoardModal = () => {
     const isBoardCreated = await createNewBoard(BOARDS_ENDPOINT, boardInformation)
     setIsNewCreated(isBoardCreated);
     setCreatingBoard(false)
+    if (isBoardCreated) setAlert("success");
+    if (!isBoardCreated) setAlert("error");
     closeModal()
     setTimeout(() => {
       setIsNewCreated(false)

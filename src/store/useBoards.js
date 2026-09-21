@@ -13,7 +13,7 @@ export const useBoards = create((set) => ({
     }
     return set({ boards: newBoards, fetched: "" })
   },
-  setLoading: (loadingStatus) => set(state => ({
+  setLoading: (loadingStatus) => set({
     status: { loading: loadingStatus }
-  }))
+  })
 }))

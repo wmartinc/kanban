@@ -7,10 +7,10 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      "@": __dirname + "/src",
-      "@Components": __dirname + "/src/Componentes",
-      "@Store": __dirname + "/src/store",
-      "@Utils": __dirname + "/src/Utils"
+      "@": import.meta.dirname + "/src",
+      "@Components": import.meta.dirname + "/src/Componentes",
+      "@Store": import.meta.dirname + "/src/store",
+      "@Utils": import.meta.dirname + "/src/Utils"
     }
   }
 })

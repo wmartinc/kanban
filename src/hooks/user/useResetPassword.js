@@ -11,7 +11,6 @@ const useResetPassword = () => {
 
     try {
       const data = await resetPasswordRequest({ email });
-      console.log("resposne: ", data)
       setResponse(data);
       return data;
     } catch (error) {

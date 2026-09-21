@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { getFavoritesBoards } from "../controllers/boards.controller";
 import { useState } from "react";
 import { useBoards } from "../store/useBoards";

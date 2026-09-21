@@ -8,7 +8,7 @@ const variants = {
   prompt: ""
 }
 
-const AlertDialog = ({ title, description, onConfirm, onCancel, variant }) => {
+const AlertDialog = ({ title, description, variant }) => {
   return (
     <div className={`${baseClasses} ${variants[variant]} bg-elevated border border-zinc-800 p-4 rounded-xl shadow-xl shadow-black/30 animate-[slideUp_0.3s_ease-out]`}>
       <div className="flex items-start gap-3">

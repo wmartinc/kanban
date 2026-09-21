@@ -4,8 +4,6 @@ import { createTask, removeTask } from "../../controllers/tasks.controller";
 const useTask = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState(null);
-  const [taskCreated, setTaskCreated] = useState(null)
-
   const sendCreateTask = async (task, columnId) => {
     setIsLoading(true);
     setResponse(null);
@@ -13,7 +11,7 @@ const useTask = () => {
     try {
       const data = await createTask(task, columnId);
       setResponse(data.confirmation);
-      setTaskCreated(data.data)
+      return data.data
     } catch (error) {
       setResponse(false);
       throw error;
@@ -29,6 +27,7 @@ const useTask = () => {
     try {
       const data = await removeTask(taskId, columnId);
       setResponse(data);
+      return data;
     } catch (error) {
       setResponse(false);
       throw error;
@@ -40,7 +39,6 @@ const useTask = () => {
   return {
     isLoading,
     response,
-    taskCreated,
     sendCreateTask,
     sendRemoveTask,
   };

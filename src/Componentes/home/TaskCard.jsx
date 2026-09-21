@@ -3,11 +3,12 @@ import { useState } from "react";
 import { useModals } from "../../store/store";
 import { useTasks } from "../../store/tasks";
 import useTask from "../../hooks/tasks/useTask";
+import useAlerts from "../../store/useAlerts";
 
 const TaskCard = ({ information, columnId }) => {
   const [mouseHoverCard, setMouseHoverCard] = useState(false)
   const [showSubMenu, setShowSubMenu] = useState(false)
-  
+
 
   const setSelectedTask = useTasks((state) => state.setSelectedTask)
   const updateModalStatus = useModals((state) => state.updateModalStatus)
@@ -28,9 +29,9 @@ const TaskCard = ({ information, columnId }) => {
   return (
     <div
       className={`rounded-lg border cursor-pointer flex flex-col select-none transition-all duration-200
-      ${showSubMenu 
-        ? 'border-zinc-600 bg-elevated' 
-        : 'border-zinc-800 bg-elevated/60 hover:border-zinc-600 hover:bg-elevated'}`}
+      ${showSubMenu
+          ? 'border-zinc-600 bg-elevated'
+          : 'border-zinc-800 bg-elevated/60 hover:border-zinc-600 hover:bg-elevated'}`}
       onMouseEnter={mouseIn}
       onMouseLeave={mouseOut}
     >
@@ -60,17 +61,20 @@ const MenuToggle = ({ isVisible, onToggle }) => {
 const SubMenu = ({ isVisible, taskId, columnId }) => {
   const modifyStatusModal = useModals((state) => state.updateModalStatus);
   const deleteTask = useTasks(state => state.removeTask)
-  const { isLoading, response, sendRemoveTask } = useTask();
-  
+  const { sendRemoveTask } = useTask();
+  const setAlert = useAlerts(state => state.setAlert)
+
   if (!isVisible) return null
 
   const changeTask = () => {
     modifyStatusModal(true, "changeTask")
   }
 
-  const removeTask = () => {
+  const removeTask = async () => {
     deleteTask(columnId, taskId)
-    sendRemoveTask(taskId, columnId)
+    const wasRemoved = await sendRemoveTask(taskId, columnId)
+    if (wasRemoved) setAlert("success");
+    if (!wasRemoved) setAlert("error");
   }
 
   return (
