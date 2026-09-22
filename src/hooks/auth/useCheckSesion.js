@@ -7,19 +7,17 @@ const useCheckSession = () => {
   const setUser = useUser((state) => state.setUser)
   const [loading, setLoading] = useState(true)
   const [response, setResponse] = useState(null)
-  const [information, setInformation] = useState(null)
 
   useEffect(() => {
     (async () => {
       setLoading(true)
       const {confirmation, content} = await isClientValidated();
       setResponse(confirmation)
-      setInformation(content)
       setUser(content)
       setLoading(false)
     })()
   }, [])
-  return {loading, response, information}
+  return {loading, response}
 }
 
 export default useCheckSession;

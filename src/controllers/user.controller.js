@@ -8,7 +8,8 @@ const resetPasswordRequest = async ({ email }) => {
     body: JSON.stringify({ email }),
   });
 
-  return response.json();
+  const data = await response.json();
+  return { ...data, confirmation: data?.confirmation ?? response.ok };
 };
 
 const checkOtpRequest = async (otp) => {
@@ -23,9 +24,11 @@ const checkOtpRequest = async (otp) => {
       body: JSON.stringify({ otp }),
     });
 
-    return response.json();
+    const data = await response.json();
+    return { ...data, confirmation: data?.confirmation ?? response.ok };
   } catch (error) {
     console.log(error.message)
+    return { confirmation: false }
   }
 }
 
@@ -40,9 +43,11 @@ const changePasswordRequest = async (password, passwordConfirmation) => {
       body: JSON.stringify({password, passwordConfirmation}),
     })
 
-    return response.json();
+    const data = await response.json();
+    return { ...data, confirmation: data?.confirmation ?? response.ok };
   } catch (error) {
     console.log("error: ", error)
+    return { confirmation: false }
   }
 }
 

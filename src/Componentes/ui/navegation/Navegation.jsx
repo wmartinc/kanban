@@ -1,33 +1,22 @@
 import logo from '../../../assets/logoo.png';
 import { useModals } from '@Store/store';
 import Button from '../../ui/shared/Button';
-import useGetBoards from '../../../hooks/useGetBoards';
-import { useEffect } from 'react';
-import { useBoards } from '../../../store/useBoards';
-import { Menu, User, Plus, Grid3x3, Star } from 'lucide-react';
+import { Menu, User, Plus, Grid3x3, Star, LogOut } from 'lucide-react';
 import { useState } from 'react';
 import { X } from 'lucide-react';
 import useGetFavoriteBoards from '../../../hooks/useGetFavoriteBoards';
+import useLogOut from '../../../hooks/auth/useLogOut';
 
 const Navegation = () => {
-  const { fetchBoards, loading, response } = useGetBoards()
   const { getFavorites } = useGetFavoriteBoards() 
   const updateModalStatus = useModals((state) => state.updateModalStatus)
-  const setBoards = useBoards(state => state.setBoards);
-
-  useEffect(() => {
-    if (!loading && response) {
-      setBoards(response)
-    }
-  }, [loading, response])
 
   const setModalBoard = () => {
     updateModalStatus(true, "addBoard")
   }
 
-  const getTotalBoards = async () => {
+  const getTotalBoards = () => {
     updateModalStatus(true, "showBoards")
-    fetchBoards();
   }
 
   const showFavoritesModal = () => {
@@ -35,30 +24,34 @@ const Navegation = () => {
     getFavorites()
   }
 
+  const { closeSession } = useLogOut()
+
   return (
     <nav className="w-full py-3 md:px-4 flex items-center justify-between flex-col md:flex-row border-b border-zinc-800/50">
       <div className="md:w-[30%] w-62.5 top-0 absolute lg:static flex items-center justify-center">
         <img src={logo} alt="logo" className='w-[50%] aspect-11/5 object-cover pointer-events-none user-select-none' />
       </div>
 
-      <NavegationOptionsDesktop setModalBoard={setModalBoard} getTotalBoards={getTotalBoards} showFavoritesModal={showFavoritesModal} />
-      <NavegationOptionsMobile createBoard={setModalBoard} showBoards={getTotalBoards} showFavoriteBoards={showFavoritesModal} />
+      <NavegationOptionsDesktop setModalBoard={setModalBoard} getTotalBoards={getTotalBoards} showFavoritesModal={showFavoritesModal} logout={closeSession} />
+      <NavegationOptionsMobile createBoard={setModalBoard} showBoards={getTotalBoards} showFavoriteBoards={showFavoritesModal} logout={closeSession} />
     </nav>
   )
 }
 
-const NavegationOptionsDesktop = ({ setModalBoard, getTotalBoards, showFavoritesModal }) => {
+const NavegationOptionsDesktop = ({ setModalBoard, getTotalBoards, showFavoritesModal, logout }) => {
   return (
     <div className='w-full hidden md:flex justify-end gap-2'>
       <Button variant="ghost" event={showFavoritesModal}>Favorites</Button>
       <Button variant="ghost" event={getTotalBoards}>Boards</Button>
       <div className="w-px h-6 bg-zinc-800 mx-1" />
       <Button variant="secondary" event={setModalBoard}>New Board</Button>
+      <div className="w-px h-6 bg-zinc-800 mx-1" />
+      <Button variant="ghost" event={logout}>Log Out</Button>
     </div>
   )
 }
 
-const NavegationOptionsMobile = ({createBoard, showBoards, showFavoriteBoards }) => {
+const NavegationOptionsMobile = ({createBoard, showBoards, showFavoriteBoards, logout }) => {
   const [isShown, setIsShown] = useState(false)
   const toggleMenu = () => {
     setIsShown(!isShown)
@@ -82,6 +75,7 @@ const NavegationOptionsMobile = ({createBoard, showBoards, showFavoriteBoards })
         <button className={btn_menu} onClick={()=> selectOption(createBoard) } ><Plus size={18} />Create Board</button>
         <button className={btn_menu} onClick={() => selectOption(showBoards)} ><Grid3x3 size={18} />Select a board</button>
         <button className={btn_menu} onClick={() => selectOption(showFavoriteBoards)} ><Star size={18} />Favorites</button>
+        <button className={btn_menu} onClick={() => selectOption(logout)} ><LogOut size={18} />Log Out</button>
 
         <X className='absolute bottom-4 right-4 stroke-zinc-500 hover:stroke-zinc-300 cursor-pointer transition-colors' onClick={toggleMenu}/>
       </div>

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { getBoards } from "../controllers/boards.controller";
 import { useBoards } from "../store/useBoards";
 
@@ -8,20 +8,23 @@ const useGetBoards = () => {
   const savingLoad = useBoards(state => state.setLoading)
 
   // This one will get the boards to show them in the modal
-  const fetchBoards = async () => {
+  const fetchBoards = useCallback(async () => {
     setLoading(true)
     setResponse(null)
     savingLoad(true)
-    const boardsResponse = await getBoards();
-    if(!boardsResponse) {
+    try {
+      const boardsResponse = await getBoards();
+      if (!boardsResponse) {
+        setResponse(false)
+        return
+      }
+      setResponse(boardsResponse)
+    } finally {
+      // Siempre apaga el loading, incluso si no hay boards o falla la petición
       setLoading(false)
-      setResponse(false)
-      return
+      savingLoad(false)
     }
-    setLoading(false)
-    setResponse(boardsResponse)
-    savingLoad(false)
-  }
+  }, [savingLoad])
 
   return {
     loading,

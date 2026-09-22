@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useModals } from "../../store/store";
 import useAlerts from "../../store/useAlerts";
 import Button from "../ui/shared/Button";
@@ -28,6 +28,16 @@ const CreateBoardModal = () => {
   const modifyStatusModal = useModals((state) => state.updateModalStatus);
   const setAlert = useAlerts(state => state.setAlert)
 
+  // Dato extra que llega al abrir el modal: si se abrió desde el modal de favoritos, el board se crea como favorito
+  const creationInformation = useModals((state) => state.creationInformation)
+  const setCreationInformation = useModals((state) => state.setCreationInformation)
+  const [is_favorite] = useState(creationInformation?.is_favorite ?? false)
+
+  // Consume y limpia el dato al montar, para que la próxima vez (ej: desde la navegación) el board no se cree como favorito
+  useEffect(() => {
+    setCreationInformation()
+  }, [setCreationInformation])
+
   const closeModal = () => {
     modifyStatusModal(false)
   }
@@ -56,7 +66,7 @@ const CreateBoardModal = () => {
     checkFieldInformation("description", isDescriptionValid)
     if (!isTitleValid || !isDescriptionValid) return;
     setCreatingBoard(true)
-    const isBoardCreated = await createNewBoard(BOARDS_ENDPOINT, boardInformation)
+    const isBoardCreated = await createNewBoard(BOARDS_ENDPOINT, { ...boardInformation, is_favorite })
     setIsNewCreated(isBoardCreated);
     setCreatingBoard(false)
     if (isBoardCreated) setAlert("success");
@@ -104,7 +114,7 @@ const CreateBoardModal = () => {
         </div>
       </div>
       {
-        isNewCreated && <AlertDialog variant={"advise"} title={"Done!"} description={"Board created successfully."} />
+        isNewCreated && <AlertDialog title={"Done!"} description={"Board created successfully."} />
       }
       {
         creatingBoard && <GlobalSpinner />

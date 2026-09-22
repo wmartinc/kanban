@@ -64,7 +64,6 @@ const ResetPassword = () => {
   const [email, setEmail] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [stage, setStage] = useState("email");
-  const [updateMessage] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState(true);
@@ -164,7 +163,6 @@ const ResetPassword = () => {
             />
           )}
   
-          {updateMessage && <p className="text-emerald-400 text-sm mt-2">{updateMessage}</p>}
           {response?.error && stage === "email" && (
             <p className="text-rose-400 text-xs mt-2">{response.error}</p>
           )}

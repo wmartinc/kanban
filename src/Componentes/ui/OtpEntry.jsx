@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useRef } from "react"
 
-const OtpEntry = ({ saveOtp }) => {1
+const OtpEntry = ({ saveOtp }) => {
   const otpReference = useRef(null)
   const inputClass = "text-center text-white w-1/4 h-10 border border-gray-300/25 rounded-md focus:outline-none focus:ring-1 focus:ring-white-500"
 

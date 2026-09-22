@@ -5,7 +5,6 @@ import { useBoards } from "../store/useBoards";
 const useGetFavoriteBoards = () => {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const saveBoards = useBoards(state => state.setBoards)
   const savingLoad = useBoards(state => state.setLoading)
 
@@ -17,15 +16,13 @@ const useGetFavoriteBoards = () => {
       setFavorites(responseApi);
       // saving the store information.
       saveBoards(responseApi,"favorites")
-    } catch (error) {
-      setError(error.message)
     } finally {
       setLoading(false)
       savingLoad(false)
     }
   }
 
-  return { favorites, loading, error, getFavorites };
+  return { favorites, loading, getFavorites };
 
 }
 

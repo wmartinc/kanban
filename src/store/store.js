@@ -17,6 +17,9 @@ export const useModals = create((set) => ({
     showTask: false,
     confirmation: false
   },
+  // Información extra del modal de creación (ej: crear un board como favorito desde el modal de favoritos)
+  creationInformation: { is_favorite: false },
+  setCreationInformation: (information = { is_favorite: false }) => set({ creationInformation: information }),
   // modalContainer explicitly because it is one of the existing properties already.
   updateModalStatus: (status, modalName = "") => set((state) => {
     // Here we will set the last updated modal to the one that is being updated.
