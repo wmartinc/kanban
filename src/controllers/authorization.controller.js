@@ -17,13 +17,13 @@ const createSesion = async (email, password) => {
   }
 }
 
-const createUser = async (email, password, passwordConfirmation, otp) => {
+const createUser = async (userName, email, password, passwordConfirmation, otp) => {
   try {
     const respUsers = await fetch(`${VITE_USERS_ENDPOINT}/signup`, {
       method: "POST",
       credentials: "include",
       headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({email, password, passwordConfirmation, otp})
+      body: JSON.stringify({userName, email, password, passwordConfirmation, otp})
     })
 
     const userResponse = await respUsers.json()

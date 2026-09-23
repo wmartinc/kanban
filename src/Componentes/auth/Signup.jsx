@@ -19,7 +19,7 @@ const OtpSubmitAction = ({ saveOtp, error }) => {
 
 const Signup = () => {
   const navigate = useNavigate()
-  const [userCredentials, setUserCredentials] = useState({ email: "", password: "", confirmPassword: "" })
+  const [userCredentials, setUserCredentials] = useState({ userName: "", email: "", password: "", confirmPassword: "" })
   const [otpNumber, setOtpNumber] = useState({
     otp1: "",
     otp2: "",
@@ -61,7 +61,7 @@ const Signup = () => {
 
   // Valida la info, pide el envío del OTP a signup-check y pasa a la etapa de verificación
   const submitInformation = async () => {
-    if (userCredentials.email.trim() === "" || userCredentials.password.trim() === "" || userCredentials.confirmPassword.trim() === "") {
+    if (userCredentials.userName.trim() === "" || userCredentials.email.trim() === "" || userCredentials.password.trim() === "" || userCredentials.confirmPassword.trim() === "") {
       setFillFields(true)
       return
     }
@@ -98,12 +98,12 @@ const Signup = () => {
     });
   };
 
-  // Envía email, password y el OTP al backend para insertar la data
+  // Envía nombre, email, password y el OTP al backend para insertar la data
   const confirmOtp = async () => {
     const otp = Object.values(otpNumber).join("");
 
     setIsCreating(true)
-    const data = await createUser(userCredentials.email, userCredentials.password, userCredentials.confirmPassword, otp)
+    const data = await createUser(userCredentials.userName, userCredentials.email, userCredentials.password, userCredentials.confirmPassword, otp)
     setIsCreating(false)
 
     if (data?.confirmation) {
@@ -130,6 +130,9 @@ const Signup = () => {
 
         {stage === "form" && (
           <div className="space-y-5">
+            <div>
+              <Input nameField="userName" changeEvent={updateCredentials}>Enter Username</Input>
+            </div>
             <div>
               <Input nameField="email" changeEvent={updateCredentials}>Enter Email</Input>
               {
