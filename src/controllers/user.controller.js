@@ -1,5 +1,7 @@
+const VITE_USER_ENDPOINT = import.meta.env.VITE_USER_ENDPOINT
+
 const resetPasswordRequest = async ({ email }) => {
-  const response = await fetch("http://localhost:3000/api/user/reset-password", {
+  const response = await fetch(`${VITE_USER_ENDPOINT}/reset-password`, {
     method: "PUT",
     credentials: "include",
     headers: {
@@ -15,7 +17,7 @@ const resetPasswordRequest = async ({ email }) => {
 const checkOtpRequest = async (otp) => {
   
   try {
-    const response = await fetch("http://localhost:3000/api/user/check-otp", {
+    const response = await fetch(`${VITE_USER_ENDPOINT}/check-otp`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -34,7 +36,7 @@ const checkOtpRequest = async (otp) => {
 
 const changePasswordRequest = async (password, passwordConfirmation) => {
   try {
-    const response = await fetch("http://localhost:3000/api/user/change-password", {
+    const response = await fetch(`${VITE_USER_ENDPOINT}/change-password`, {
       method: "PUT",
       credentials: "include",
       headers: {

@@ -1,5 +1,7 @@
 import socket from 'socket.io-client'
 
-const ioClient = socket('http://localhost:3000', {withCredentials: true}); // Reemplaza con la URL de tu servidor
+const VITE_SOCKET_ENDPOINT = import.meta.env.VITE_SOCKET_ENDPOINT
+
+const ioClient = socket(VITE_SOCKET_ENDPOINT, {withCredentials: true});
 
 export { ioClient };
